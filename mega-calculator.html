@@ -434,7 +434,71 @@
                 <h1>Investment Property Calculator</h1>
                 <p class="lead">Calculate tax benefits, mortgage payments, cash flow, and return on investment for your
                     property investment decisions.</p>
+                <a href="https://github.com/binchenX/skyx/issues/new" target="_blank" class="btn btn-danger">Report
+                    Issue</a>
             </header>
+
+            <details
+                style="margin: 20px 0; padding: 20px; background-color: #f8f9f9; border-radius: 8px; border: 1px solid #e1e4e8;">
+                <summary style="font-size: 1.2em; font-weight: bold; cursor: pointer; padding: 10px;">📖 How to Use This
+                    Calculator</summary>
+                <div style="margin-top: 15px;">
+                    <h3>Overview</h3>
+                    <p>This calculator suite helps you make informed property investment decisions by analyzing
+                        different aspects of property investment.</p>
+
+                    <h4>1. Income & Tax Analysis</h4>
+                    <ul>
+                        <li><strong>When to use:</strong> Start here to input your income and see your tax position</li>
+                        <li><strong>What it shows:</strong> After-tax income, tax payable, and effective tax rate</li>
+                        <li><strong>Save feature:</strong> Save your income details securely for future sessions</li>
+                    </ul>
+
+                    <h4>2. Cash Flow & Asset Analysis</h4>
+                    <ul>
+                        <li><strong>When to use:</strong> To understand your current financial position</li>
+                        <li><strong>What it shows:</strong> Monthly disposable income, total assets, and projected
+                            savings</li>
+                        <li><strong>Key features:</strong> Tracks both liquid (savings) and fixed assets</li>
+                    </ul>
+
+                    <h4>3. Asset Projection</h4>
+                    <ul>
+                        <li><strong>When to use:</strong> To visualize your wealth growth over time</li>
+                        <li><strong>What it shows:</strong> Year-by-year projection of your assets with and without
+                            property investment</li>
+                        <li><strong>Visual aid:</strong> Bar chart showing the split between liquid and fixed assets
+                        </li>
+                    </ul>
+
+                    <h4>4. Investment Property Analysis</h4>
+                    <ul>
+                        <li><strong>When to use:</strong> When evaluating a specific investment property</li>
+                        <li><strong>What it shows:</strong> Complete ROI analysis, including:</li>
+                        <li>- Tax benefits from negative gearing</li>
+                        <li>- Capital growth projections</li>
+                        <li>- Cash flow analysis</li>
+                        <li>- Transaction costs breakdown</li>
+                    </ul>
+
+                    <h4>5. Home Upgrade Analysis</h4>
+                    <ul>
+                        <li><strong>When to use:</strong> When considering upgrading your primary residence</li>
+                        <li><strong>What it shows:</strong> Financial impact of upgrading, including:</li>
+                        <li>- Change in monthly payments</li>
+                        <li>- Total transaction costs</li>
+                        <li>- Required mortgage calculations</li>
+                    </ul>
+
+                    <h4>Tips for Use</h4>
+                    <ul>
+                        <li>Use the save buttons to store your data securely for future sessions</li>
+                        <li>Hover over the ⓘ icons for detailed explanations of each field</li>
+                        <li>All calculations update automatically as you input values</li>
+                        <li>Use the 'M' notation for millions (e.g., 1.5M = 1,500,000)</li>
+                    </ul>
+                </div>
+            </details>
 
             <section id="income-tax-analysis">
                 <div class="section-title">Income & Tax Analysis</div>
@@ -855,6 +919,178 @@
                                 <!-- Will be populated by JavaScript -->
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="home-upgrade-analysis">
+                <div class="section-title">Home Upgrade Analysis</div>
+                <div class="projection-section">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                        <!-- Current Home Details -->
+                        <div
+                            style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #2ecc71;">
+                            <div class="section-header">
+                                <h3 style="color: #2c3e50; margin-bottom: 20px;">Current Home</h3>
+                                <button onclick="saveToLocalStorage('currentHome')" class="save-button">Save Current
+                                    Home</button>
+                            </div>
+                            <div class="field-group">
+                                <label for="currentHomeValue">Current Home Value ($)
+                                    <span class="tooltip">ⓘ<span class="tooltiptext">Current market value of your
+                                            home</span></span>
+                                </label>
+                                <input type="text" id="currentHomeValue" value="800,000" inputmode="numeric">
+                            </div>
+                            <div class="field-group">
+                                <label for="currentHomeLoan">Current Home Loan ($)
+                                    <span class="tooltip">ⓘ<span class="tooltiptext">Remaining balance on your current
+                                            mortgage</span></span>
+                                </label>
+                                <input type="text" id="currentHomeLoan" value="500,000" inputmode="numeric">
+                            </div>
+                            <div class="field-group">
+                                <label for="currentCredit">Current Credit ($)
+                                    <span class="tooltip">ⓘ<span class="tooltiptext">Your current available credit or
+                                            savings</span></span>
+                                </label>
+                                <input type="text" id="currentCredit" value="0" inputmode="numeric">
+                            </div>
+                            <div class="field-group">
+                                <label for="currentAreaGrowth">Current Area Growth Rate (%)
+                                    <span class="tooltip">ⓘ<span class="tooltiptext">Expected annual property growth
+                                            rate in your current area</span></span>
+                                </label>
+                                <input type="number" id="currentAreaGrowth" value="3" step="0.1">
+                            </div>
+                            <div
+                                style="margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 8px;">
+                                <div class="field-group">
+                                    <label>Total Cash After Sell
+                                        <span class="tooltip">ⓘ<span class="tooltiptext">Available cash after selling
+                                                current home (Home Value - Loan - Transaction Costs)</span></span>
+                                    </label>
+                                    <div id="totalCashAfterSell" class="result-value">$0</div>
+                                </div>
+                                <div class="field-group">
+                                    <label>Minimal Mortgage ($)
+                                        <span class="tooltip">ⓘ<span class="tooltiptext">Minimum mortgage needed
+                                                (Upgrade Home Value - Total Cash After Sell)</span></span>
+                                    </label>
+                                    <div id="minimalMortgage" class="result-value">$0</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Upgrade Home Details -->
+                        <div
+                            style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #3498db;">
+                            <div class="section-header">
+                                <h3 style="color: #2c3e50; margin-bottom: 20px;">Upgrade Home</h3>
+                                <button onclick="saveToLocalStorage('upgradeHome')" class="save-button">Save Upgrade
+                                    Home</button>
+                            </div>
+                            <div class="field-group">
+                                <label for="upgradeHomeValue">Upgrade Home Value ($)
+                                    <span class="tooltip">ⓘ<span class="tooltiptext">Purchase price of the new
+                                            home</span></span>
+                                </label>
+                                <input type="text" id="upgradeHomeValue" value="1,200,000" inputmode="numeric">
+                            </div>
+                            <div style="display: flex; gap: 20px;">
+                                <div class="field-group" style="flex: 1;">
+                                    <label for="upgradeMortgagePercent">Mortgage (%)
+                                        <span class="tooltip">ⓘ<span class="tooltiptext">Percentage of home value to
+                                                borrow</span></span>
+                                    </label>
+                                    <input type="number" id="upgradeMortgagePercent" value="80" step="1" min="0"
+                                        max="100">
+                                </div>
+                                <div class="field-group" style="flex: 1;">
+                                    <label for="upgradeMortgageAmount">Amount ($)
+                                        <span class="tooltip">ⓘ<span class="tooltiptext">Amount to borrow for the new
+                                                home</span></span>
+                                    </label>
+                                    <input type="text" id="upgradeMortgageAmount" value="960,000" inputmode="numeric">
+                                </div>
+                            </div>
+                            <div class="field-group">
+                                <label for="upgradeInterestRate">Interest Rate (%)
+                                    <span class="tooltip">ⓘ<span class="tooltiptext">Annual interest rate for the new
+                                            home loan</span></span>
+                                </label>
+                                <input type="number" id="upgradeInterestRate" value="6" step="0.1">
+                            </div>
+                            <div class="field-group">
+                                <label for="upgradeAreaGrowth">Upgrade Area Growth Rate (%)
+                                    <span class="tooltip">ⓘ<span class="tooltiptext">Expected annual property growth
+                                            rate in the new area</span></span>
+                                </label>
+                                <input type="number" id="upgradeAreaGrowth" value="4" step="0.1">
+                            </div>
+                            <div class="field-group">
+                                <label for="upgradeLoanType">New Loan Type
+                                    <span class="tooltip">ⓘ<span class="tooltiptext">Type of mortgage for the new
+                                            home</span></span>
+                                </label>
+                                <select id="upgradeLoanType">
+                                    <option value="PI">Principal & Interest</option>
+                                    <option value="IO">Interest Only</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Transaction Costs -->
+                        <div
+                            style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #e74c3c;">
+                            <h3 style="color: #2c3e50; margin-bottom: 20px;">Transaction Costs</h3>
+                            <div class="field-group">
+                                <label for="sellingCosts">Selling Costs - Current Home (%)
+                                    <span class="tooltip">ⓘ<span class="tooltiptext">Agent commission and other selling
+                                            costs as percentage of sale price</span></span>
+                                </label>
+                                <input type="number" id="sellingCosts" value="2.5" step="0.1">
+                            </div>
+                            <div class="field-group">
+                                <label for="buyingCosts">Buying Costs - New Home (%)
+                                    <span class="tooltip">ⓘ<span class="tooltiptext">Stamp duty and other buying costs
+                                            as percentage of purchase price</span></span>
+                                </label>
+                                <input type="number" id="buyingCosts" value="5" step="0.1">
+                            </div>
+                            <div class="field-group">
+                                <label for="movingCosts">Moving Costs ($)
+                                    <span class="tooltip">ⓘ<span class="tooltiptext">Total costs for moving, including
+                                            packing, transport, and setup</span></span>
+                                </label>
+                                <input type="text" id="movingCosts" value="5,000" inputmode="numeric">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Financial Impact Analysis -->
+                    <div id="upgradeAnalysisResults"
+                        style="margin-top: 30px; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+                        <h3 style="color: #2c3e50; margin-bottom: 20px;">Financial Impact Analysis</h3>
+                        <div
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                            <div>
+                                <h4>Current Monthly Payment</h4>
+                                <div id="currentMonthlyPayment" class="result-value">$0</div>
+                            </div>
+                            <div>
+                                <h4>New Monthly Payment</h4>
+                                <div id="newMonthlyPayment" class="result-value">$0</div>
+                            </div>
+                            <div>
+                                <h4>Monthly Payment Change</h4>
+                                <div id="monthlyPaymentChange" class="result-value">$0</div>
+                            </div>
+                            <div>
+                                <h4>Transaction Costs</h4>
+                                <div id="totalTransactionCosts" class="result-value">$0</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -1674,6 +1910,32 @@
                     localStorage.setItem('assetData', encryptedData);
                     showSaveMessage('Asset data saved and encrypted!');
                 }
+            } else if (section === 'currentHome') {
+                const currentHomeData = {
+                    currentHomeValue: document.getElementById('currentHomeValue').value,
+                    currentHomeLoan: document.getElementById('currentHomeLoan').value,
+                    currentCredit: document.getElementById('currentCredit').value,
+                    currentAreaGrowth: document.getElementById('currentAreaGrowth').value
+                };
+                const encryptedData = encryptData(currentHomeData);
+                if (encryptedData) {
+                    localStorage.setItem('currentHomeData', encryptedData);
+                    showSaveMessage('Current Home data saved and encrypted!');
+                }
+            } else if (section === 'upgradeHome') {
+                const upgradeHomeData = {
+                    upgradeHomeValue: document.getElementById('upgradeHomeValue').value,
+                    upgradeMortgagePercent: document.getElementById('upgradeMortgagePercent').value,
+                    upgradeMortgageAmount: document.getElementById('upgradeMortgageAmount').value,
+                    upgradeInterestRate: document.getElementById('upgradeInterestRate').value,
+                    upgradeAreaGrowth: document.getElementById('upgradeAreaGrowth').value,
+                    upgradeLoanType: document.getElementById('upgradeLoanType').value
+                };
+                const encryptedData = encryptData(upgradeHomeData);
+                if (encryptedData) {
+                    localStorage.setItem('upgradeHomeData', encryptedData);
+                    showSaveMessage('Upgrade Home data saved and encrypted!');
+                }
             }
         }
 
@@ -1706,6 +1968,32 @@
                     document.getElementById('currentSavings').value = assetData.currentSavings;
                     document.getElementById('otherAssets').value = assetData.otherAssets;
                     document.getElementById('propertyGrowthRate').value = assetData.propertyGrowthRate;
+                }
+            }
+
+            // Load current home data
+            const savedCurrentHomeData = localStorage.getItem('currentHomeData');
+            if (savedCurrentHomeData) {
+                const currentHomeData = decryptData(savedCurrentHomeData);
+                if (currentHomeData) {
+                    document.getElementById('currentHomeValue').value = currentHomeData.currentHomeValue;
+                    document.getElementById('currentHomeLoan').value = currentHomeData.currentHomeLoan;
+                    document.getElementById('currentCredit').value = currentHomeData.currentCredit;
+                    document.getElementById('currentAreaGrowth').value = currentHomeData.currentAreaGrowth;
+                }
+            }
+
+            // Load upgrade home data
+            const savedUpgradeHomeData = localStorage.getItem('upgradeHomeData');
+            if (savedUpgradeHomeData) {
+                const upgradeHomeData = decryptData(savedUpgradeHomeData);
+                if (upgradeHomeData) {
+                    document.getElementById('upgradeHomeValue').value = upgradeHomeData.upgradeHomeValue;
+                    document.getElementById('upgradeMortgagePercent').value = upgradeHomeData.upgradeMortgagePercent;
+                    document.getElementById('upgradeMortgageAmount').value = upgradeHomeData.upgradeMortgageAmount;
+                    document.getElementById('upgradeInterestRate').value = upgradeHomeData.upgradeInterestRate;
+                    document.getElementById('upgradeAreaGrowth').value = upgradeHomeData.upgradeAreaGrowth;
+                    document.getElementById('upgradeLoanType').value = upgradeHomeData.upgradeLoanType;
                 }
             }
 
@@ -2069,6 +2357,128 @@
         document.getElementById('deposit').addEventListener('input', updateAmortizationSchedule);
         document.getElementById('interestRate').addEventListener('input', updateAmortizationSchedule);
         document.getElementById('loanType').addEventListener('change', updateAmortizationSchedule);
+
+        // Add function to calculate home upgrade analysis
+        function calculateUpgradeAnalysis() {
+            // Get current home details
+            const currentHomeValue = parseCurrencyString(document.getElementById('currentHomeValue').value);
+            const currentHomeLoan = parseCurrencyString(document.getElementById('currentHomeLoan').value);
+            const currentCredit = parseCurrencyString(document.getElementById('currentCredit').value);
+            const currentAreaGrowth = parseFloat(document.getElementById('currentAreaGrowth').value) / 100;
+
+            // Get upgrade home details
+            const upgradeHomeValue = parseCurrencyString(document.getElementById('upgradeHomeValue').value);
+            const upgradeAreaGrowth = parseFloat(document.getElementById('upgradeAreaGrowth').value) / 100;
+            const upgradeLoanType = document.getElementById('upgradeLoanType').value;
+            const upgradeInterestRate = parseFloat(document.getElementById('upgradeInterestRate').value) / 100;
+
+            // Get transaction costs
+            const sellingCostsPercent = parseFloat(document.getElementById('sellingCosts').value) / 100;
+            const buyingCostsPercent = parseFloat(document.getElementById('buyingCosts').value) / 100;
+            const movingCosts = parseCurrencyString(document.getElementById('movingCosts').value);
+
+            // Calculate selling costs
+            const sellingCosts = currentHomeValue * sellingCostsPercent;
+            const buyingCosts = upgradeHomeValue * buyingCostsPercent;
+            const totalTransactionCosts = sellingCosts + buyingCosts + movingCosts;
+
+            // Calculate total cash after sell
+            const totalCashAfterSell = currentHomeValue - currentHomeLoan - totalTransactionCosts + currentCredit;
+
+            // Calculate minimal mortgage needed
+            const minimalMortgage = Math.max(0, upgradeHomeValue - totalCashAfterSell);
+
+            // Update the display of new calculations
+            document.getElementById('totalCashAfterSell').textContent = formatCurrency(totalCashAfterSell);
+            document.getElementById('minimalMortgage').textContent = formatCurrency(minimalMortgage);
+            document.getElementById('totalCashAfterSell').className = 'result-value ' + (totalCashAfterSell > 0 ? 'positive' : 'negative');
+            document.getElementById('minimalMortgage').className = 'result-value neutral';
+
+            // Calculate monthly payments
+            const monthlyRate = upgradeInterestRate / 12;
+
+            // Calculate current monthly payment using current home loan interest rate
+            const currentMonthlyPayment = currentHomeLoan * monthlyRate * Math.pow(1 + monthlyRate, 360) / (Math.pow(1 + monthlyRate, 360) - 1);
+
+            // Calculate new monthly payment
+            let newMonthlyPayment;
+            if (upgradeLoanType === 'IO') {
+                newMonthlyPayment = upgradeHomeValue * monthlyRate;
+            } else {
+                newMonthlyPayment = upgradeHomeValue * monthlyRate * Math.pow(1 + monthlyRate, 360) / (Math.pow(1 + monthlyRate, 360) - 1);
+            }
+
+            // Calculate monthly payment change
+            const monthlyPaymentChange = newMonthlyPayment - currentMonthlyPayment;
+
+            // Update results
+            document.getElementById('currentMonthlyPayment').textContent = formatCurrency(currentMonthlyPayment);
+            document.getElementById('newMonthlyPayment').textContent = formatCurrency(newMonthlyPayment);
+            document.getElementById('monthlyPaymentChange').textContent = formatCurrency(monthlyPaymentChange);
+            document.getElementById('totalTransactionCosts').textContent = formatCurrency(totalTransactionCosts);
+
+            // Add appropriate CSS classes based on values
+            document.getElementById('monthlyPaymentChange').className = 'result-value ' + (monthlyPaymentChange > 0 ? 'negative' : 'positive');
+            document.getElementById('totalTransactionCosts').className = 'result-value negative';
+        }
+
+        // Add event listeners for home upgrade analysis
+        const upgradeInputs = [
+            'currentHomeValue', 'currentHomeLoan', 'currentCredit', 'currentAreaGrowth',
+            'upgradeHomeValue', 'upgradeAreaGrowth', 'upgradeLoanType',
+            'sellingCosts', 'buyingCosts', 'movingCosts', 'upgradeMortgagePercent',
+            'upgradeMortgageAmount', 'upgradeInterestRate'
+        ];
+
+        upgradeInputs.forEach(inputId => {
+            const element = document.getElementById(inputId);
+            if (element.type === 'text') {
+                element.addEventListener('input', function () {
+                    handleCurrencyInput.call(this);
+                    calculateUpgradeAnalysis();
+                });
+            } else {
+                element.addEventListener('input', calculateUpgradeAnalysis);
+            }
+            element.addEventListener('change', calculateUpgradeAnalysis);
+        });
+
+        // Function to sync mortgage percentage and amount
+        function syncMortgage(source) {
+            const homeValue = parseCurrencyString(document.getElementById('upgradeHomeValue').value);
+            const percentElement = document.getElementById('upgradeMortgagePercent');
+            const amountElement = document.getElementById('upgradeMortgageAmount');
+
+            if (source === 'percent') {
+                const percent = parseFloat(percentElement.value);
+                const amount = homeValue * (percent / 100);
+                amountElement.value = formatNumberWithCommas(amount);
+            } else {
+                const amount = parseCurrencyString(amountElement.value);
+                const percent = (amount / homeValue * 100).toFixed(1);
+                percentElement.value = Math.min(100, Math.max(0, percent));
+            }
+            calculateUpgradeAnalysis();  // Ensure this is called
+        }
+
+        // Add event listeners for mortgage sync
+        document.getElementById('upgradeMortgagePercent').addEventListener('input', () => {
+            syncMortgage('percent');
+            calculateUpgradeAnalysis();  // Add explicit call
+        });
+        document.getElementById('upgradeMortgageAmount').addEventListener('input', () => {
+            handleCurrencyInput.call(document.getElementById('upgradeMortgageAmount'));
+            syncMortgage('amount');
+            calculateUpgradeAnalysis();  // Add explicit call
+        });
+        document.getElementById('upgradeHomeValue').addEventListener('input', () => {
+            handleCurrencyInput.call(document.getElementById('upgradeHomeValue'));
+            syncMortgage('percent');
+            calculateUpgradeAnalysis();  // Add explicit call
+        });
+
+        // Initial calculation
+        calculateUpgradeAnalysis();
     </script>
 </body>
 
