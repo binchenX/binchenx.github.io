@@ -1,0 +1,1952 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5494979508153382"
+        crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mega Calculator: Tax, Mortgage, Cash flow, and Investment Property</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #2c3e50;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .income-section {
+            width: 100%;
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .income-input {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .income-results {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .property-section {
+            width: 100%;
+            display: flex;
+            gap: 30px;
+        }
+
+        .section-title {
+            width: 100%;
+            text-align: left;
+            margin: 20px 0;
+            color: #2c3e50;
+            font-size: 24px;
+            font-weight: bold;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+
+        .input-section {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .results-section {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .field-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .result-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .result-item h3 {
+            margin-bottom: 5px;
+            color: #3498db;
+        }
+
+        .result-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .positive {
+            color: #27ae60;
+        }
+
+        .negative {
+            color: #e74c3c;
+        }
+
+        .neutral {
+            color: #f39c12;
+        }
+
+        .separator {
+            margin: 20px 0;
+            border-top: 1px solid #ddd;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            margin-left: 5px;
+            cursor: help;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 250px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -125px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-weight: normal;
+            font-size: 14px;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .bar-chart {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 400px;
+            padding: 20px 0;
+            position: relative;
+        }
+
+        .bar-container {
+            display: flex;
+            align-items: flex-start;
+            height: 350px;
+            gap: 10px;
+            position: relative;
+            margin: 20px 40px;
+        }
+
+        /* Asset Projection Chart Specific Styles */
+        #assetProjectionChart .bar {
+            flex: 1;
+            position: relative;
+            min-width: 30px;
+            height: 100%;
+            background-color: transparent;
+        }
+
+        #assetProjectionChart .bar-fixed {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #e74c3c;
+            border-radius: 4px 4px 0 0;
+            transition: height 0.3s ease;
+        }
+
+        #assetProjectionChart .bar-liquid {
+            position: absolute;
+            left: 0;
+            right: 0;
+            background-color: #3498db;
+            border-radius: 4px 4px 0 0;
+            transition: height 0.3s ease;
+        }
+
+        /* Property Impact Chart Specific Styles */
+        #propertyImpactChart .bar-group {
+            display: flex;
+            gap: 4px;
+            flex: 1;
+            position: relative;
+            height: 100%;
+            align-items: flex-end;
+        }
+
+        #propertyImpactChart .bar-without-property,
+        #propertyImpactChart .bar-with-property,
+        #propertyImpactChart .bar-sale-proceeds {
+            flex: 1;
+            position: relative;
+            height: 0%;
+            border-radius: 4px 4px 0 0;
+            transition: height 0.3s ease;
+            transform-origin: bottom;
+        }
+
+        #propertyImpactChart .bar-without-property {
+            background-color: #2ecc71;
+        }
+
+        #propertyImpactChart .bar-with-property {
+            background-color: #9b59b6;
+        }
+
+        #propertyImpactChart .bar-sale-proceeds {
+            background-color: #f1c40f;
+            position: absolute;
+            bottom: 100%;
+            width: 100%;
+            left: 0;
+        }
+
+        /* Common Bar Chart Styles */
+        .bar-value {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: calc(100% + 5px);
+            font-size: 12px;
+            white-space: nowrap;
+            display: none;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 3px;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .bar-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .bar:hover .bar-value,
+        .bar-fixed:hover .bar-value,
+        .bar-liquid:hover .bar-value,
+        .bar-without-property:hover .bar-value,
+        .bar-with-property:hover .bar-value,
+        .bar-sale-proceeds:hover .bar-value {
+            display: block;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .save-button {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .save-button:hover {
+            background-color: #219a52;
+        }
+
+        .projection-section {
+            width: 100%;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        #assetProjectionChart {
+            width: 100%;
+            height: 400px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Investment Property Calculator</h1>
+    <p>Evaluate your potential property investment using the calculator below.</p>
+
+    <div class="section-title">Income & Tax Analysis</div>
+    <div class="income-section">
+        <div class="income-input">
+            <div class="section-header">
+                <h2>Income Details</h2>
+                <button onclick="saveToLocalStorage('income')" class="save-button">Save Income</button>
+            </div>
+            <div class="field-group">
+                <label for="salary">Annual Salary 1 ($)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">First person's annual salary before
+                            tax</span></span>
+                </label>
+                <input type="text" id="salary" value="120,000" inputmode="numeric">
+            </div>
+
+            <div class="field-group">
+                <label for="salary2">Annual Salary 2 ($)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Second person's annual salary before
+                            tax</span></span>
+                </label>
+                <input type="text" id="salary2" value="80,000" inputmode="numeric">
+            </div>
+
+            <div class="field-group">
+                <label for="otherIncome">Other Taxable Income ($)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Additional taxable income (e.g., bonuses,
+                            dividends)</span></span>
+                </label>
+                <input type="text" id="otherIncome" value="0" inputmode="numeric">
+            </div>
+        </div>
+
+        <div class="income-results">
+            <h2>Tax Summary</h2>
+            <div id="taxContainer">
+                <!-- Tax results will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <div class="section-title">Cash Flow & Asset</div>
+    <div class="income-section">
+        <div class="income-input">
+            <div class="section-header">
+                <h2>Expenses</h2>
+                <button onclick="saveToLocalStorage('expenses')" class="save-button">Save Expenses</button>
+            </div>
+            <div class="field-group">
+                <label for="monthlyExpenses">Monthly Living Expenses ($)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Regular monthly expenses including utilities,
+                            groceries, etc.</span></span>
+                </label>
+                <input type="text" id="monthlyExpenses" value="4,000" inputmode="numeric">
+            </div>
+
+            <div class="field-group">
+                <label for="currentMortgage">Current Mortgage Payment ($)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Optional: Your current monthly mortgage payment if
+                            any</span></span>
+                </label>
+                <input type="text" id="currentMortgage" value="0" inputmode="numeric">
+            </div>
+        </div>
+
+        <div class="income-results">
+            <div class="section-header">
+                <h2>Asset Summary</h2>
+                <button onclick="saveToLocalStorage('assets')" class="save-button">Save Assets</button>
+            </div>
+            <div class="field-group">
+                <label for="currentSavings">Liquid Assets - Savings ($)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Total amount in savings/offset
+                            accounts</span></span>
+                </label>
+                <input type="text" id="currentSavings" value="100,000" inputmode="numeric">
+            </div>
+
+            <div class="field-group">
+                <label for="otherAssets">Fixed Assets - Property ($)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Value of owned properties</span></span>
+                </label>
+                <input type="text" id="otherAssets" value="50,000" inputmode="numeric">
+            </div>
+
+            <div class="field-group">
+                <label for="propertyGrowthRate">Property Annual Growth Rate (%)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Expected annual growth rate of property
+                            value</span></span>
+                </label>
+                <input type="number" id="propertyGrowthRate" value="5" step="0.1">
+            </div>
+
+            <div id="cashFlowContainer">
+                <!-- Cash flow results will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <div class="section-title">Asset Projection</div>
+    <div class="projection-section">
+        <div class="field-group" style="max-width: 200px; margin-bottom: 20px;">
+            <label for="projectionYears">Projection Years
+                <span class="tooltip">ⓘ<span class="tooltiptext">Number of years to project your asset
+                        growth</span></span>
+            </label>
+            <input type="number" id="projectionYears" value="10" min="1" max="30">
+        </div>
+        <div id="assetProjectionChart">
+            <!-- Asset projection chart will appear here -->
+        </div>
+    </div>
+
+    <div class="section-title">Investment Property Impact Analysis</div>
+    <div class="projection-section">
+        <div id="propertyImpactChart">
+            <!-- Property impact comparison chart will appear here -->
+        </div>
+    </div>
+
+    <div class="section-title">Tax Comparison</div>
+    <div class="projection-section">
+        <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+            <div class="field-group" style="flex: 1; min-width: 300px;">
+                <h3>Building Depreciation</h3>
+                <label for="landValuePercent">Land Value (% of purchase price)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Typically 50-70% of the total property
+                            value</span></span>
+                </label>
+                <input type="number" id="landValuePercent" value="60" min="0" max="100" step="1">
+
+                <label for="buildingDepreciationRate">Building Depreciation Rate (%)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Capital works deduction rate, typically 2.5% per
+                            year</span></span>
+                </label>
+                <input type="number" id="buildingDepreciationRate" value="2.5" min="0" max="10" step="0.1">
+            </div>
+
+            <div class="field-group" style="flex: 1; min-width: 300px;">
+                <h3>Plant & Equipment Depreciation</h3>
+                <label for="equipmentValuePercent">Equipment Value (% of building value)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Typically 10-15% of the building
+                            value</span></span>
+                </label>
+                <input type="number" id="equipmentValuePercent" value="10" min="0" max="100" step="1">
+
+                <label for="equipmentDepreciationRate">Equipment Depreciation Rate (%)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Average depreciation rate for plant and equipment
+                            items</span></span>
+                </label>
+                <input type="number" id="equipmentDepreciationRate" value="10" min="0" max="100" step="1">
+            </div>
+        </div>
+
+        <div id="taxComparisonContainer" style="margin-top: 20px;">
+            <!-- Tax comparison results will appear here -->
+        </div>
+    </div>
+
+    <div class="section-title">Property Investment Analysis</div>
+    <div class="property-section">
+        <div class="input-section">
+            <h2>Property Details</h2>
+            <div class="field-group">
+                <label for="purchasePrice">Purchase Price ($)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Initial cost of the property</span></span>
+                </label>
+                <input type="text" id="purchasePrice" value="1,200,000" inputmode="numeric">
+            </div>
+
+            <div class="field-group">
+                <label for="deposit">Deposit ($)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">The deposit amount (typically 20% of purchase
+                            price)</span></span>
+                </label>
+                <input type="text" id="deposit" value="240,000" inputmode="numeric">
+            </div>
+
+            <div class="field-group">
+                <label for="interestRate">Interest Rate (%)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Annual interest rate on your loan</span></span>
+                </label>
+                <input type="number" id="interestRate" value="6" step="0.1">
+            </div>
+
+            <div class="field-group">
+                <label for="loanType">Loan Type
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Interest Only or Principal & Interest
+                            loan</span></span>
+                </label>
+                <select id="loanType">
+                    <option value="PI">Principal & Interest</option>
+                    <option value="IO">Interest Only</option>
+                </select>
+            </div>
+
+            <div class="field-group">
+                <label for="holdingPeriod">Holding Period (years)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">How many years you plan to own the
+                            property</span></span>
+                </label>
+                <input type="number" id="holdingPeriod" value="7" min="1" max="30">
+            </div>
+
+            <div class="field-group">
+                <label for="annualGrowth">Estimated Annual Growth (%)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Expected annual property value growth
+                            rate</span></span>
+                </label>
+                <input type="number" id="annualGrowth" value="5" step="0.1">
+            </div>
+
+            <div class="field-group">
+                <label for="rentalYield">Rental Yield (% of purchase price)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Annual rental income as percentage of purchase
+                            price</span></span>
+                </label>
+                <input type="number" id="rentalYield" value="3.5" step="0.1">
+            </div>
+
+            <div class="field-group">
+                <label for="annualRental">Weekly Rental Income ($)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Weekly rental income - will auto-calculate annual
+                            rental yield</span></span>
+                </label>
+                <input type="text" id="annualRental" value="800" inputmode="numeric">
+            </div>
+
+            <div class="field-group">
+                <label for="capitalImprovements">Capital Improvements ($)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Total cost of capital improvements (e.g.,
+                            renovations, extensions) - reduces capital gains tax</span></span>
+                </label>
+                <input type="text" id="capitalImprovements" value="0" inputmode="numeric">
+            </div>
+
+            <h3>Operating Costs (Annual)</h3>
+
+            <div class="field-group">
+                <label for="pmFees">Property Management Fees (% of rent)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Percentage charged by property
+                            managers</span></span>
+                </label>
+                <input type="number" id="pmFees" value="7" step="0.1">
+            </div>
+
+            <div class="field-group">
+                <label for="councilRates">Council Rates ($)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Annual council/municipal charges</span></span>
+                </label>
+                <input type="number" id="councilRates" value="2500">
+            </div>
+
+            <div class="field-group">
+                <label for="landTax">Land Tax ($)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Annual land tax based on property
+                            value</span></span>
+                </label>
+                <input type="number" id="landTax" value="1000">
+            </div>
+
+            <div class="field-group">
+                <label for="insurance">Insurance ($)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Annual building/landlord insurance</span></span>
+                </label>
+                <input type="number" id="insurance" value="2000">
+            </div>
+
+            <div class="field-group">
+                <label for="maintenance">Maintenance ($)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Estimated annual maintenance costs</span></span>
+                </label>
+                <input type="number" id="maintenance" value="3000">
+            </div>
+
+            <div class="field-group">
+                <label for="waterRates">Water Rates ($)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Annual water service charges</span></span>
+                </label>
+                <input type="number" id="waterRates" value="1000">
+            </div>
+
+            <h3>Transaction Costs</h3>
+
+            <div class="field-group">
+                <label for="buyerLegalFees">Buyer Legal Fees ($)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Legal and conveyancing fees when
+                            buying</span></span>
+                </label>
+                <input type="number" id="buyerLegalFees" value="2000">
+            </div>
+
+            <div class="field-group">
+                <label for="sellerAgentFees">Selling Agent Commission (%)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Real estate agent commission when
+                            selling</span></span>
+                </label>
+                <input type="number" id="sellerAgentFees" value="2.0" step="0.1">
+            </div>
+
+            <div class="field-group">
+                <label for="sellerLegalFees">Seller Legal Fees ($)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Legal and conveyancing fees when
+                            selling</span></span>
+                </label>
+                <input type="number" id="sellerLegalFees" value="1500">
+            </div>
+
+            <h3>Tax Settings</h3>
+
+            <div class="field-group">
+                <label for="marginalTaxRate">Marginal Tax Rate (%)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Your highest tax bracket percentage</span></span>
+                </label>
+                <input type="number" id="marginalTaxRate" value="40" max="100">
+            </div>
+
+            <div class="field-group">
+                <label for="offsetRate">Offset Account Rate (%)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Interest rate you'd earn on money in offset
+                            account</span></span>
+                </label>
+                <input type="number" id="offsetRate" value="6.5" step="0.1">
+            </div>
+
+            <div class="field-group">
+                <label for="riskAdjustment">Risk Adjustment (%)
+                    <span class="tooltip">ⓘ<span class="tooltiptext">Subjective risk factor (negative value reduces
+                            score)</span></span>
+                </label>
+                <input type="number" id="riskAdjustment" value="-10">
+            </div>
+        </div>
+
+        <div class="results-section">
+            <h2>Property Analysis</h2>
+            <p>Results will update automatically as you change values.</p>
+
+            <div id="resultsContainer">
+                <!-- Results will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <div class="section-title">Loan Amortization Schedule</div>
+    <div class="projection-section">
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                <thead>
+                    <tr style="background-color: #f8f9fa;">
+                        <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Years remaining
+                        </th>
+                        <th style="padding: 12px; text-align: right; border-bottom: 2px solid #dee2e6;">Principal
+                            remaining</th>
+                        <th style="padding: 12px; text-align: right; border-bottom: 2px solid #dee2e6;">Annual Interest
+                        </th>
+                        <th style="padding: 12px; text-align: right; border-bottom: 2px solid #dee2e6;">Principal Paid
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="amortizationTableBody">
+                    <!-- Will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Add a function to parse currency strings with million notation
+        function parseCurrencyString(value) {
+            if (typeof value !== 'string') return parseFloat(value) || 0;
+
+            // Remove commas and convert to lowercase for processing
+            value = value.replace(/,/g, '').toLowerCase();
+
+            // Check for million notation (e.g., 1.3m, 1.3M)
+            if (value.includes('m')) {
+                const number = parseFloat(value.replace('m', ''));
+                return number * 1000000;
+            }
+
+            return parseFloat(value) || 0;
+        }
+
+        // Add tax calculation function
+        function calculateTax(income) {
+            // 2023-2024 Australian Tax Rates
+            const taxBrackets = [
+                { threshold: 0, rate: 0, base: 0 },
+                { threshold: 18201, rate: 0.19, base: 0 },
+                { threshold: 45001, rate: 0.325, base: 5092 },
+                { threshold: 120001, rate: 0.37, base: 29467 },
+                { threshold: 180001, rate: 0.45, base: 51667 }
+            ];
+
+            let bracket = taxBrackets[0];
+            for (let i = taxBrackets.length - 1; i >= 0; i--) {
+                if (income >= taxBrackets[i].threshold) {
+                    bracket = taxBrackets[i];
+                    break;
+                }
+            }
+
+            const taxPayable = bracket.base + (income - bracket.threshold) * bracket.rate;
+            return taxPayable;
+        }
+
+        // Add interest calculation functions
+        function calculateInterestForYear(yearIndex, loanAmount, interestRate, monthlyPayment, isIO) {
+            const monthlyRate = interestRate / 12;
+            let totalInterestThisYear = 0;
+            let balance = loanAmount;
+
+            if (isIO) {
+                // For IO loans, interest is constant throughout
+                return loanAmount * interestRate;
+            } else {
+                // First, calculate the balance at the start of the target year
+                // by processing all months in previous years
+                for (let month = 0; month < yearIndex * 12; month++) {
+                    const interestThisMonth = balance * monthlyRate;
+                    const principalThisMonth = monthlyPayment - interestThisMonth;
+                    balance -= principalThisMonth;
+                }
+
+                // Now calculate interest for the target year
+                for (let month = 0; month < 12; month++) {
+                    const interestThisMonth = balance * monthlyRate;
+                    totalInterestThisYear += interestThisMonth;
+                    const principalThisMonth = monthlyPayment - interestThisMonth;
+                    balance -= principalThisMonth;
+                }
+                return totalInterestThisYear;
+            }
+        }
+
+        function allInterestsPaidTillSellOff(loanAmount, interestRate, holdingPeriod, isIO) {
+            const monthlyRate = interestRate / 12;
+            let totalInterestPaid = 0;
+
+            if (isIO) {
+                // For IO loans, simply multiply annual interest by holding period
+                totalInterestPaid = loanAmount * interestRate * holdingPeriod;
+            } else {
+                // For P&I loans, calculate the monthly payment first
+                const monthlyPayment = loanAmount *
+                    (monthlyRate * Math.pow(1 + monthlyRate, 360)) /
+                    (Math.pow(1 + monthlyRate, 360) - 1);
+
+                // Calculate interest for each year until sale
+                for (let year = 0; year < holdingPeriod; year++) {
+                    totalInterestPaid += calculateInterestForYear(year, loanAmount, interestRate, monthlyPayment, false);
+                }
+            }
+            return totalInterestPaid;
+        }
+
+        function calculateAnnualLoanPayment(loanAmount, interestRate, monthlyRate, loanType) {
+            // Note: For P&I loans, this calculation is simplified and uses the total payment amount
+            // rather than just the interest portion for negative gearing. In reality, only the
+            // interest portion would be tax deductible, and this portion decreases each year as
+            // more principal is paid off. This simplification may overstate the tax benefits.
+            if (loanType === 'IO') {
+                // Interest Only loan
+                return loanAmount * interestRate;
+            } else {
+                // Principal & Interest loan - using amortization formula
+                // Safeguard against zero interest rate
+                if (interestRate === 0) {
+                    return loanAmount / 30; // 30 years
+                } else {
+                    const monthlyPayment = loanAmount *
+                        (monthlyRate * Math.pow(1 + monthlyRate, 360)) /
+                        (Math.pow(1 + monthlyRate, 360) - 1);
+                    return monthlyPayment * 12;
+                }
+            }
+        }
+
+        // Calculate remaining loan balance at end of holding period for P&I loans
+        function calculateEndingLoanBalance(loanAmount, loanType, annualLoanPayment, monthlyRate, holdingPeriod) {
+            if (loanType === 'PI') {
+                const monthlyPayment = annualLoanPayment / 12;
+                let balance = loanAmount;
+                let totalInterestPaid = 0;
+
+                // Calculate balance after holding period
+                for (let i = 0; i < holdingPeriod * 12; i++) {
+                    const interestThisMonth = balance * monthlyRate;
+                    const principalThisMonth = monthlyPayment - interestThisMonth;
+                    balance -= principalThisMonth;
+                    totalInterestPaid += interestThisMonth;
+                }
+                return Math.max(0, balance);
+            }
+            return loanAmount;
+        }
+
+        function getBuildingDepreciationPerYear() {
+            const purchasePrice = parseCurrencyString(document.getElementById('purchasePrice').value);
+            const buildingValue = purchasePrice * (1 - parseFloat(document.getElementById('landValuePercent').value) / 100);
+            const buildingDepreciationRate = parseFloat(document.getElementById('buildingDepreciationRate').value) / 100;
+            return buildingValue * buildingDepreciationRate;
+        }
+
+        function calculateResults() {
+            // - section: Personal Financial Situation
+            // Parse income values
+            const salaryInput = document.getElementById('salary');
+            const salary2Input = document.getElementById('salary2');
+            const salary1 = parseCurrencyString(salaryInput.value);
+            const salary2 = parseCurrencyString(salary2Input.value);
+
+            // Calculate tax for each salary separately
+            const taxPayable1 = calculateTax(salary1);
+            const taxPayable2 = calculateTax(salary2);
+            const afterTaxIncome1 = salary1 - taxPayable1;
+            const afterTaxIncome2 = salary2 - taxPayable2;
+
+            // Calculate combined totals
+            const totalTaxPayable = taxPayable1 + taxPayable2;
+            const totalAfterTaxIncome = afterTaxIncome1 + afterTaxIncome2;
+            const effectiveTaxRate = ((taxPayable1 + taxPayable2) / (salary1 + salary2)) * 100;
+
+            // Update tax results
+            let taxHTML = '';
+            taxHTML += createResultItem('Annual After-Tax Income', formatCurrency(totalAfterTaxIncome));
+            taxHTML += createResultItem('Fortnightly After-Tax Income', formatCurrency(totalAfterTaxIncome / 26));
+            taxHTML += createResultItem('Tax Payable', formatCurrency(totalTaxPayable));
+            taxHTML += createResultItem('Effective Tax Rate', effectiveTaxRate.toFixed(1) + '%');
+
+            document.getElementById('taxContainer').innerHTML = taxHTML;
+
+            // Calculate cash flow and asset values
+            const monthlyExpenses = parseCurrencyString(document.getElementById('monthlyExpenses').value);
+            const currentMortgage = parseCurrencyString(document.getElementById('currentMortgage').value);
+            const currentSavings = parseCurrencyString(document.getElementById('currentSavings').value);
+            const otherAssets = parseCurrencyString(document.getElementById('otherAssets').value);
+            const projectionYears = parseInt(document.getElementById('projectionYears').value);
+
+            const monthlyAfterTaxIncome = totalAfterTaxIncome / 12;
+            const totalMonthlyExpenses = monthlyExpenses + currentMortgage;
+            const monthlyDisposableIncome = monthlyAfterTaxIncome - totalMonthlyExpenses;
+            const totalAssets = currentSavings + otherAssets;
+            const annualSavings = monthlyDisposableIncome * 12;
+
+            // Update cash flow results
+            let cashFlowHTML = '';
+            cashFlowHTML += createResultItem('Monthly After-Tax Income', formatCurrency(monthlyAfterTaxIncome));
+            cashFlowHTML += createResultItem('Total Monthly Expenses', formatCurrency(totalMonthlyExpenses));
+            cashFlowHTML += createResultItem('Monthly Disposable Income', formatCurrency(monthlyDisposableIncome),
+                monthlyDisposableIncome > 0 ? 'positive' : 'negative');
+            cashFlowHTML += '<div class="separator"></div>';
+            cashFlowHTML += createResultItem('Total Current Assets', formatCurrency(totalAssets));
+            cashFlowHTML += createResultItem('Projected Annual Savings', formatCurrency(annualSavings),
+                annualSavings > 0 ? 'positive' : 'negative');
+
+            document.getElementById('cashFlowContainer').innerHTML = cashFlowHTML;
+
+            // Generate asset projection data
+            const projectionData = [];
+            let projectedLiquidAssets = currentSavings;
+            let projectedFixedAssets = otherAssets;
+            const propertyGrowthRate = parseFloat(document.getElementById('propertyGrowthRate').value) / 100;
+
+            for (let year = 0; year <= projectionYears; year++) {
+                const totalAssets = projectedLiquidAssets + projectedFixedAssets;
+                const fixedAssetsPercentage = (projectedFixedAssets / totalAssets * 100).toFixed(1);
+
+                projectionData.push({
+                    year: year,
+                    liquidAssets: projectedLiquidAssets,
+                    fixedAssets: projectedFixedAssets,
+                    totalAssets: totalAssets,
+                    fixedAssetsPercentage: fixedAssetsPercentage
+                });
+
+                projectedLiquidAssets += annualSavings;
+                projectedFixedAssets *= (1 + propertyGrowthRate);
+            }
+
+            // Create the chart with the new data
+            createAssetChart(projectionData);
+
+            // When calculating, convert any 'M' notation to full numbers
+            const purchaseInput = document.getElementById('purchasePrice');
+            const depositInput = document.getElementById('deposit');
+            const rentalInput = document.getElementById('annualRental');
+
+            // Convert M notation to full numbers with commas for display
+            if (purchaseInput.value.toLowerCase().includes('m')) {
+                const fullNumber = parseCurrencyString(purchaseInput.value);
+                purchaseInput.value = formatNumberWithCommas(fullNumber);
+            }
+            if (depositInput.value.toLowerCase().includes('m')) {
+                const fullNumber = parseCurrencyString(depositInput.value);
+                depositInput.value = formatNumberWithCommas(fullNumber);
+            }
+            if (rentalInput.value.toLowerCase().includes('m')) {
+                const fullNumber = parseCurrencyString(rentalInput.value);
+                rentalInput.value = formatNumberWithCommas(fullNumber);
+            }
+
+            // - section: Investment Property
+            // Get all input values for investment property
+            const purchasePrice = parseCurrencyString(purchaseInput.value);
+            const deposit = parseCurrencyString(depositInput.value);
+            const weeklyRent = parseCurrencyString(rentalInput.value);
+            const annualRent = weeklyRent * 52;
+            const interestRate = parseFloat(document.getElementById('interestRate').value) / 100;
+            const holdingPeriod = parseInt(document.getElementById('holdingPeriod').value);
+            const annualGrowth = parseFloat(document.getElementById('annualGrowth').value) / 100;
+            const rentalYield = annualRent / purchasePrice; // Calculate from actual rental
+            const pmFeesRate = parseFloat(document.getElementById('pmFees').value) / 100;
+            const councilRates = parseFloat(document.getElementById('councilRates').value);
+            const landTax = parseFloat(document.getElementById('landTax').value);
+            const insurance = parseFloat(document.getElementById('insurance').value);
+            const maintenance = parseFloat(document.getElementById('maintenance').value);
+            const waterRates = parseFloat(document.getElementById('waterRates').value);
+
+            // Transaction costs
+            const buyerLegalFees = parseFloat(document.getElementById('buyerLegalFees').value);
+            const sellerAgentRate = parseFloat(document.getElementById('sellerAgentFees').value) / 100;
+            const sellerLegalFees = parseFloat(document.getElementById('sellerLegalFees').value);
+
+            // Calculate buying costs
+            const stampDuty = calculateStampDuty(purchasePrice);
+            const buyingCosts = stampDuty + buyerLegalFees;
+
+            // Calculate sale price and selling costs
+            const salePrice = purchasePrice * Math.pow(1 + annualGrowth, holdingPeriod);
+            const sellerAgentFees = salePrice * sellerAgentRate;
+            const sellingCosts = sellerAgentFees + sellerLegalFees;
+
+            // Total transaction costs
+            const buySellCosts = buyingCosts + sellingCosts;
+
+            const marginalTaxRate = parseFloat(document.getElementById('marginalTaxRate').value) / 100;
+            const offsetRate = parseFloat(document.getElementById('offsetRate').value) / 100;
+            const riskAdjustment = parseFloat(document.getElementById('riskAdjustment').value);
+
+            // Calculate derived values
+            const loanAmount = purchasePrice - deposit;
+
+            // Calculate loan payments based on loan type
+            const loanType = document.getElementById('loanType').value;
+            const monthlyRate = interestRate / 12;
+            const totalPayments = holdingPeriod * 12;
+            const annualLoanPayment = calculateAnnualLoanPayment(loanAmount, interestRate, monthlyRate, loanType);
+
+            const totalOperatingCosts = pmFeesRate * annualRent + councilRates + landTax + insurance + maintenance + waterRates;
+
+            // Cash flow calculations
+            const preTaxCashFlow = annualRent - annualLoanPayment - totalOperatingCosts;
+            const propertyMonthlyImpact = preTaxCashFlow / 12;
+            // Not a accurate calculation for tax benefit - not all net negative cash flow is tax deductible
+            // For P&I loans, only the interest portion is tax deductible
+            // This is a simplified calculation and may overstate the tax benefits
+            // Todo: Fix this later - there is already a calculation for tax benefit in the tax comparison section
+            const taxBenefit = preTaxCashFlow < 0 ? Math.abs(preTaxCashFlow) * marginalTaxRate : 0;
+            const netCashFlow = preTaxCashFlow + taxBenefit;
+            const totalHoldingCosts = (Math.abs(netCashFlow) * holdingPeriod) + buySellCosts;
+
+            // Capital gain calculations, use the following formula:
+            // Capital Gain = Sales Price - (Adjusted Basis + Selling Costs)
+            // Adjusted Basis = Purchase Price + Capital Improvements - Accumulated Depreciation
+            // We don't have capital improvements or accumulated depreciation yet, do it later
+            // This gross gain is meaningless and seems only for tax purposes, your net profit will be much lower
+            // We won't use "Accumulated Depreciation" here, will ajust it later with annualizedROIWithTaxBenefits
+            // Actully you have to include the accumulated depreciation in the adjusted cost base, since that is 
+            // enforced by the tax office. Omit meansing you overestimate the capital gain.
+            // TIL: the negative gearing benefit you may get before selling will have to "hand back" when selling it
+            // those tax benefits are considered as your "gain" when selling it
+            const capitalImprovements = parseCurrencyString(document.getElementById('capitalImprovements').value);
+            const accumulatedDepreciation = getBuildingDepreciationPerYear() * holdingPeriod;
+            const adjustedCostBase = purchasePrice + buyingCosts + capitalImprovements - accumulatedDepreciation;
+            const grossGain = salePrice - adjustedCostBase - sellingCosts;
+            const taxableGain = holdingPeriod >= 1 ? grossGain * 0.5 : grossGain; // 50% CGT discount for assets held >12 months
+            const cgt = taxableGain * marginalTaxRate;
+            const afterTaxCapitalGain = grossGain - cgt;
+
+            // Net profit calculation - account for loan principal reduction in P&I loans
+            const endingLoanBalance = calculateEndingLoanBalance(loanAmount, loanType, annualLoanPayment, monthlyRate, holdingPeriod);
+            const principalReduction = loanAmount - endingLoanBalance;
+            const netProfit = afterTaxCapitalGain - totalHoldingCosts + principalReduction;
+
+            // Return calculations
+            const totalInvestment = deposit + buySellCosts; // Total money invested upfront
+            const totalReturn = netProfit + (netCashFlow * holdingPeriod); // Total money returned
+
+            // Capital Growth (property value increase)
+            const actualCapitalGrowth = (Math.pow(salePrice / purchasePrice, 1 / holdingPeriod) - 1) * 100; // Realized growth rate
+            const afterTaxCapitalGrowth = (Math.pow((salePrice - cgt) / purchasePrice, 1 / holdingPeriod) - 1) * 100; // After tax
+
+            // Total ROI (includes everything)
+            const annualizedROI = (Math.pow((totalReturn / totalInvestment) + 1, 1 / holdingPeriod) - 1) * 100;
+
+            // Calculate total tax benefits over holding period
+            const totalTaxBenefits = taxBenefit * holdingPeriod; // Annual tax savings * holding period
+            const totalReturnWithTaxBenefits = totalReturn + totalTaxBenefits;
+            const annualizedROIWithTaxBenefits = (Math.pow((totalReturnWithTaxBenefits / totalInvestment) + 1, 1 / holdingPeriod) - 1) * 100;
+
+            // Cash yield (annual rental return percentage)
+            const cashYield = (netCashFlow / totalInvestment) * 100;
+
+            // Opportunity cost calculation
+            const interestSaved = deposit * offsetRate * holdingPeriod;
+            const avoidedLosses = Math.abs(netCashFlow) * holdingPeriod;
+            const opportunityCost = interestSaved + avoidedLosses;
+
+            // Investibility score calculation
+            const returnFactor = (netProfit / deposit) * 100;
+            const cashFlowFactor = (-totalHoldingCosts / (purchasePrice * holdingPeriod)) * 100;
+            const investibilityScore = (0.5 * returnFactor) + (0.3 * cashFlowFactor) + (0.2 * riskAdjustment);
+
+            // Calculate tax comparison with negative gearing
+            const landValuePercent = parseFloat(document.getElementById('landValuePercent').value) / 100;
+            const buildingDepreciationRate = parseFloat(document.getElementById('buildingDepreciationRate').value) / 100;
+            const equipmentValuePercent = parseFloat(document.getElementById('equipmentValuePercent').value) / 100;
+            const equipmentDepreciationRate = parseFloat(document.getElementById('equipmentDepreciationRate').value) / 100;
+
+            // Calculate building depreciation
+            const landValue = purchasePrice * landValuePercent;
+            const buildingValue = purchasePrice - landValue;
+            const buildingDepreciation = buildingValue * buildingDepreciationRate;
+
+            // Calculate equipment depreciation
+            const equipmentValue = buildingValue * equipmentValuePercent;
+            const equipmentDepreciation = equipmentValue * equipmentDepreciationRate;
+
+            // Total annual depreciation
+            const totalAnnualDepreciation = buildingDepreciation + equipmentDepreciation;
+
+            // Calculate tax benefits
+            const totalDeductibleLoss = Math.abs(netCashFlow) + totalAnnualDepreciation;
+            const taxSavings = totalDeductibleLoss * marginalTaxRate;
+            const effectiveAnnualCashFlow = netCashFlow + taxSavings;
+            const effectiveMonthlyImpact = effectiveAnnualCashFlow / 12;
+
+            // Update tax comparison results
+            let taxComparisonHTML = '';
+            taxComparisonHTML += '<div style="background-color: white; padding: 20px; border-radius: 8px; margin: 10px 0;">';
+            taxComparisonHTML += '<h2 style="color: #2c3e50; margin-bottom: 20px;">Tax Benefits from Negative Gearing</h2>';
+
+
+            // First row: Tax benefits
+            taxComparisonHTML += '<div style="display: flex; gap: 30px; margin-bottom: 20px;">';
+            taxComparisonHTML += `
+                <div style="flex: 1; text-align: center;">
+                    <div style="font-weight: bold;">Annual Tax Savings</div>
+                    <div class="result-value positive">${formatCurrency(taxSavings)}</div>
+                </div>
+                <div style="flex: 1; text-align: center;">
+                    <div style="font-weight: bold;">Effective Annual Cash Flow</div>
+                    <div class="result-value ${effectiveAnnualCashFlow > 0 ? 'positive' : 'negative'}">${formatCurrency(effectiveAnnualCashFlow)}</div>
+                </div>
+                <div style="flex: 1; text-align: center;">
+                    <div style="font-weight: bold;">Effective Monthly Impact</div>
+                    <div class="result-value ${effectiveMonthlyImpact > 0 ? 'positive' : 'negative'}">${formatCurrency(effectiveMonthlyImpact)}</div>
+                </div>
+            `;
+            taxComparisonHTML += '</div>';
+
+            // Explanation text for negative gearing
+            taxComparisonHTML += '<div style="margin: 20px 0; padding: 15px; background-color: #f8f9fa; border-radius: 4px; text-align: center;">';
+            taxComparisonHTML += `
+                <div style="font-weight: bold; margin-bottom: 10px;">How Negative Gearing Tax Benefits Are Calculated</div>
+                <div style="color: #666;">
+                    Your marginal tax rate of ${(marginalTaxRate * 100).toFixed(0)}% is applied to the total deductible loss ( see below ),
+                    resulting in tax savings of ${formatCurrency(taxSavings)} per year
+                </div>
+            `;
+            taxComparisonHTML += '</div>';
+
+            // Second row: Total Deductible Loss = Annual Depreciation + Net Annual Cash Flow
+            taxComparisonHTML += '<div style="display: flex; gap: 30px; margin-bottom: 20px;">';
+            taxComparisonHTML += `
+                <div style="flex: 1; text-align: center;">
+                    <div style="font-weight: bold;">Total Deductible Loss</div>
+                    <div class="result-value negative">${formatCurrency(totalDeductibleLoss)}</div>
+                </div>
+                <div style="flex: 0 0 auto; display: flex; align-items: center; font-size: 24px;">=</div>
+                <div style="flex: 1; text-align: center;">
+                    <div style="font-weight: bold;">Total Annual Depreciation</div>
+                    <div class="result-value">${formatCurrency(totalAnnualDepreciation)}</div>
+                </div>
+                <div style="flex: 0 0 auto; display: flex; align-items: center; font-size: 24px;">+</div>
+                <div style="flex: 1; text-align: center;">
+                    <div style="font-weight: bold;">Net Annual Cash Flow</div>
+                    <div class="result-value ${netCashFlow > 0 ? 'positive' : 'negative'}">${formatCurrency(netCashFlow)}</div>
+                </div>
+            `;
+            taxComparisonHTML += '</div>';
+
+            // Collapsible details section
+            taxComparisonHTML += '<details style="margin-top: 20px; font-size: 0.9em; color: #666;">';
+            taxComparisonHTML += '<summary style="cursor: pointer; padding: 10px; background-color: #f8f9fa; border-radius: 4px;">Property Values & Depreciation Details ▼</summary>';
+            taxComparisonHTML += '<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 15px; border: 1px solid #eee; border-radius: 4px; margin-top: 10px;">';
+            taxComparisonHTML += `
+                <div>
+                    <strong>Purchase Price:</strong> ${formatCurrency(purchasePrice)}<br>
+                    <strong>Land Value:</strong> ${formatCurrency(landValue)}<br>
+                    <strong>Building Value:</strong> ${formatCurrency(buildingValue)}<br>
+                    <strong>Equipment Value:</strong> ${formatCurrency(equipmentValue)}
+                </div>
+                <div>
+                    <strong>Building Depreciation:</strong> ${formatCurrency(buildingDepreciation)} <span class="tooltip">ⓘ<span class="tooltiptext">${(buildingDepreciationRate * 100).toFixed(1)}% of building value</span></span><br>
+                    <strong>Equipment Depreciation:</strong> ${formatCurrency(equipmentDepreciation)} <span class="tooltip">ⓘ<span class="tooltiptext">${(equipmentDepreciationRate * 100).toFixed(1)}% of equipment value</span></span>
+                </div>
+            `;
+            taxComparisonHTML += '</div>';
+            taxComparisonHTML += '</details>';
+
+            taxComparisonHTML += '</div>';
+
+            document.getElementById('taxComparisonContainer').innerHTML = taxComparisonHTML;
+
+            // Update results
+            let resultsHTML = '';
+
+            // Calculate net proceeds before tax
+            const netProceedsBeforeTax = salePrice - sellingCosts - endingLoanBalance;
+            const saleProceeds = netProceedsBeforeTax - cgt;
+
+            // Add key metrics
+            resultsHTML += createResultItem('Estimated Sale Price', formatCurrency(salePrice));
+            resultsHTML += createResultItem('Net Profit After Sale', formatCurrency(netProfit), netProfit > 0 ? 'positive' : 'negative');
+            resultsHTML += createResultItem('Sale Proceeds (Year ' + holdingPeriod + ')', formatCurrency(saleProceeds), saleProceeds > 0 ? 'positive' : 'negative', 'Net proceeds after selling costs, loan repayment, and capital gains tax');
+
+            // Add monthly loan payment and rental
+            resultsHTML += createResultItem('Monthly Loan Payment', formatCurrency(annualLoanPayment / 12), 'negative', 'Monthly loan repayment amount');
+            resultsHTML += createResultItem('Monthly Rental', formatCurrency(weeklyRent * 52 / 12), 'positive', 'Monthly rental income before expenses');
+
+            // Return metrics
+            resultsHTML += '<div class="separator"></div>';
+            resultsHTML += createResultItem('Total Return on Investment', annualizedROI.toFixed(1) + '% per year',
+                annualizedROI > offsetRate * 100 ? 'positive' : 'neutral',
+                'Includes capital growth and rental income, before tax benefits');
+
+            resultsHTML += createResultItem('Total Tax Benefits', formatCurrency(totalTaxBenefits), 'positive',
+                document.getElementById('loanType').value === 'PI' ?
+                    'Warning: For P&I loans, this is an overestimate as it assumes the entire loan payment is tax deductible. In reality, only the interest portion (which decreases over time) is deductible.' :
+                    'Total tax savings from negative gearing and depreciation over the holding period');
+
+            resultsHTML += '<div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #27ae60; margin: 10px 0;">';
+            resultsHTML += createResultItem('ROI Including Tax Benefits', annualizedROIWithTaxBenefits.toFixed(1) + '% per year',
+                annualizedROIWithTaxBenefits > offsetRate * 100 ? 'positive' : 'neutral',
+                'Total return including tax savings from negative gearing and depreciation');
+            resultsHTML += '<p style="margin: 5px 0 0 0; color: #7f8c8d; font-style: italic;">* This is your actual return on investment after considering all tax benefits</p>';
+            resultsHTML += '</div>';
+
+            resultsHTML += createResultItem('After-Tax Growth Rate', afterTaxCapitalGrowth.toFixed(1) + '% per year',
+                afterTaxCapitalGrowth > 0 ? 'positive' : 'negative',
+                'Property value growth rate after capital gains tax');
+
+            resultsHTML += createResultItem('Rental Return', cashYield.toFixed(1) + '% per year',
+                cashYield > 0 ? 'positive' : 'negative',
+                'Annual rental income minus costs, as percentage of your investment');
+
+            resultsHTML += createResultItem('Net Annual Cash Flow', formatCurrency(preTaxCashFlow),
+                preTaxCashFlow > 0 ? 'positive' : 'negative',
+                'Yearly rental income minus all costs and interest (before tax benefits)');
+
+            resultsHTML += createResultItem('Net Monthly Cash Flow', formatCurrency(preTaxCashFlow / 12),
+                preTaxCashFlow > 0 ? 'positive' : 'negative',
+                'Monthly rental income minus all costs and interest (before tax benefits)');
+
+            resultsHTML += '<div class="separator"></div>';
+
+            // Add detailed breakdown
+            resultsHTML += createResultItem('Loan Amount', formatCurrency(loanAmount));
+            resultsHTML += createResultItem('Annual Loan Payment', formatCurrency(annualLoanPayment));
+            resultsHTML += createResultItem('Monthly Loan Payment', formatCurrency(annualLoanPayment / 12));
+
+            // Add interest portion calculation for P&I loans
+            if (document.getElementById('loanType').value === 'PI') {
+                const monthlyPayment = annualLoanPayment / 12;
+                const firstMonthInterest = loanAmount * monthlyRate;
+                const interestPortion = (firstMonthInterest / monthlyPayment * 100).toFixed(1);
+                resultsHTML += createResultItem('Interest Portion', interestPortion + '%', 'neutral',
+                    'Percentage of your first monthly payment that goes to interest. This percentage decreases over time as more of your payment goes to principal.');
+            }
+
+            resultsHTML += createResultItem('Annual Rental Income', formatCurrency(annualRent));
+            resultsHTML += createResultItem('Annual Operating Costs', formatCurrency(totalOperatingCosts), 'negative', 'Total of property management fees, council rates, land tax, insurance, maintenance, and water rates');
+
+            // Transaction costs breakdown
+            resultsHTML += '<div class="separator"></div>';
+            resultsHTML += '<div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #3498db; margin: 10px 0;">';
+            resultsHTML += '<h2 style="color: #2c3e50; margin-bottom: 15px;">Total Transaction Costs: ' + formatCurrency(buySellCosts) + '</h2>';
+
+            resultsHTML += '<div style="margin-left: 20px;">';
+            resultsHTML += '<h3 style="color: #e74c3c;">Buying Costs: ' + formatCurrency(buyingCosts) + '</h3>';
+            resultsHTML += createResultItem('→ Stamp Duty', formatCurrency(stampDuty));
+            resultsHTML += createResultItem('→ Legal Fees (Buying)', formatCurrency(buyerLegalFees));
+
+            resultsHTML += '<h3 style="color: #e74c3c;">Selling Costs: ' + formatCurrency(sellingCosts) + '</h3>';
+            resultsHTML += createResultItem('→ Agent Commission', formatCurrency(sellerAgentFees));
+            resultsHTML += createResultItem('→ Legal Fees (Selling)', formatCurrency(sellerLegalFees));
+            resultsHTML += '</div>';
+
+            resultsHTML += '<p style="margin-top: 10px; color: #7f8c8d; font-style: italic;">* Total Transaction Costs represent the sum of all buying and selling costs over the entire investment period.</p>';
+            resultsHTML += '</div>';
+
+            resultsHTML += '<div class="separator"></div>';
+
+            // Add comparison metrics
+            resultsHTML += createResultItem('Opportunity Cost (Offset Account)', formatCurrency(opportunityCost));
+            resultsHTML += createResultItem('Profit vs. Opportunity Cost', formatCurrency(netProfit - opportunityCost), netProfit > opportunityCost ? 'positive' : 'negative');
+
+            // Add investibility score
+            let scoreClass = 'neutral';
+            if (investibilityScore > 50) scoreClass = 'positive';
+            if (investibilityScore < 30) scoreClass = 'negative';
+
+            resultsHTML += '<div class="separator"></div>';
+            resultsHTML += createResultItem('Investibility Score', investibilityScore.toFixed(1) + '/100', scoreClass);
+            resultsHTML += '<p>Score interpretation: >50 = Strong, 30-50 = Moderate, <30 = Weak</p>';
+
+            // Calculate tax benefits using actual interest paid
+            const isIO = document.getElementById('loanType').value === 'IO';
+            const totalInterestPaid = allInterestsPaidTillSellOff(loanAmount, interestRate, holdingPeriod, isIO);
+            const annualInterestPaid = totalInterestPaid / holdingPeriod; // Average annual interest
+
+            // Calculate tax benefits
+            const annualDeductibleLoss = -annualRent + annualInterestPaid + totalOperatingCosts + totalAnnualDepreciation;
+            const annualTaxSavings = annualDeductibleLoss * marginalTaxRate;
+            const totalTaxSavingsOverPeriod = annualTaxSavings * holdingPeriod;
+
+            // Update the effective cash flows
+            const effectiveAnnualCashFlowNew = preTaxCashFlow + annualTaxSavings;
+            const effectiveMonthlyImpactNew = effectiveAnnualCashFlowNew / 12;
+
+            // Add interest breakdown to results
+            resultsHTML += '<div class="separator"></div>';
+            resultsHTML += '<h3>Interest Payment Analysis</h3>';
+            resultsHTML += createResultItem('Total Interest Paid', formatCurrency(totalInterestPaid), 'negative',
+                'Total interest paid over the holding period');
+            resultsHTML += createResultItem('Average Annual Interest', formatCurrency(annualInterestPaid), 'negative',
+                'Average interest paid per year');
+            resultsHTML += createResultItem('Annual Tax Deductible Loss', formatCurrency(annualDeductibleLoss), 'negative',
+                'Total of interest, operating costs, and depreciation minus rental income');
+            resultsHTML += createResultItem('Annual Tax Savings', formatCurrency(annualTaxSavings), 'positive',
+                'Tax benefit from negative gearing based on actual interest paid');
+
+            document.getElementById('resultsContainer').innerHTML = resultsHTML;
+
+            // Create property impact comparison chart
+            createPropertyImpactChart();
+        }
+
+        function createResultItem(label, value, className = '', tooltip = '') {
+            const tooltipHtml = tooltip ? `<span class="tooltip">ⓘ<span class="tooltiptext">${tooltip}</span></span>` : '';
+            return `
+                <div class="result-item">
+                    <h3>${label}${tooltipHtml}</h3>
+                    <div class="result-value ${className}">${value}</div>
+                </div>
+            `;
+        }
+
+        function formatCurrency(value) {
+            // Format as currency with $ sign and commas
+            const absValue = Math.abs(value);
+            const sign = value < 0 ? '-' : '';
+            return sign + '$' + absValue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+        }
+
+        // Format number with commas for currency input
+        function formatNumberWithCommas(value) {
+            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        // Add event listener for rental input
+        document.getElementById('annualRental').addEventListener('input', function () {
+            let rawValue = this.value.toLowerCase();
+            let weeklyRental;
+
+            // Handle million notation
+            if (rawValue.includes('m')) {
+                weeklyRental = parseCurrencyString(rawValue);
+                // Keep the 'm' notation if user typed it
+                this.value = rawValue.toUpperCase();
+            } else {
+                // Handle regular number input
+                rawValue = rawValue.replace(/,/g, '');
+                weeklyRental = parseFloat(rawValue) || 0;
+                if (!isNaN(weeklyRental)) {
+                    this.value = formatNumberWithCommas(weeklyRental);
+                }
+            }
+
+            // Update rental yield (based on annual rent)
+            const purchasePrice = parseCurrencyString(document.getElementById('purchasePrice').value);
+            if (purchasePrice > 0) {
+                const annualRent = weeklyRental * 52;
+                const newYield = (annualRent / purchasePrice) * 100;
+                document.getElementById('rentalYield').value = newYield.toFixed(1);
+            }
+
+            // Recalculate results
+            calculateResults();
+        });
+
+        // Modify purchase price event listener to update rental
+        document.getElementById('purchasePrice').addEventListener('input', function () {
+            let rawValue = this.value.toLowerCase();
+            let price;
+
+            // Handle million notation
+            if (rawValue.includes('m')) {
+                price = parseCurrencyString(rawValue);
+                // Keep the 'm' notation if user typed it
+                this.value = rawValue.toUpperCase();
+            } else {
+                // Handle regular number input
+                rawValue = rawValue.replace(/,/g, '');
+                price = parseFloat(rawValue) || 0;
+                if (!isNaN(price)) {
+                    this.value = formatNumberWithCommas(price);
+                }
+            }
+
+            // Update deposit
+            const depositAmount = Math.round(price * 0.2);
+            document.getElementById('deposit').value = formatNumberWithCommas(depositAmount);
+
+            // Update weekly rental based on annual yield
+            const yield = parseFloat(document.getElementById('rentalYield').value) || 0;
+            const annualRental = price * (yield / 100);
+            const weeklyRental = Math.round(annualRental / 52);
+            document.getElementById('annualRental').value = formatNumberWithCommas(weeklyRental);
+
+            // Recalculate results
+            calculateResults();
+        });
+
+        // Add event listener for rental yield to update rental amount
+        document.getElementById('rentalYield').addEventListener('input', function () {
+            const yield = parseFloat(this.value) || 0;
+            const purchasePrice = parseCurrencyString(document.getElementById('purchasePrice').value);
+            const annualRental = purchasePrice * (yield / 100);
+            const weeklyRental = Math.round(annualRental / 52);
+            document.getElementById('annualRental').value = formatNumberWithCommas(weeklyRental);
+            calculateResults();
+        });
+
+        // Add event listener for deposit input
+        document.getElementById('deposit').addEventListener('input', function () {
+            let rawValue = this.value.toLowerCase();
+            let deposit;
+
+            // Handle million notation
+            if (rawValue.includes('m')) {
+                deposit = parseCurrencyString(rawValue);
+                // Keep the 'm' notation if user typed it
+                this.value = rawValue.toUpperCase();
+            } else {
+                // Handle regular number input
+                rawValue = rawValue.replace(/,/g, '');
+                deposit = parseFloat(rawValue) || 0;
+                if (!isNaN(deposit)) {
+                    this.value = formatNumberWithCommas(deposit);
+                }
+            }
+
+            // Recalculate results
+            calculateResults();
+        });
+
+        // Add event listeners to all other input fields
+        const inputFields = document.querySelectorAll('input[type="number"], select');
+        inputFields.forEach(input => {
+            input.addEventListener('input', calculateResults);
+        });
+
+        // Add event listeners for income fields
+        document.getElementById('salary').addEventListener('input', handleCurrencyInput);
+        document.getElementById('salary2').addEventListener('input', handleCurrencyInput);
+
+        // Add event listeners for depreciation fields
+        document.getElementById('landValuePercent').addEventListener('input', calculateResults);
+        document.getElementById('buildingDepreciationRate').addEventListener('input', calculateResults);
+        document.getElementById('equipmentValuePercent').addEventListener('input', calculateResults);
+        document.getElementById('equipmentDepreciationRate').addEventListener('input', calculateResults);
+
+        // Add event listeners for cash flow and asset fields
+        document.getElementById('monthlyExpenses').addEventListener('input', handleCurrencyInput);
+        document.getElementById('currentMortgage').addEventListener('input', handleCurrencyInput);
+        document.getElementById('currentSavings').addEventListener('input', handleCurrencyInput);
+        document.getElementById('otherAssets').addEventListener('input', handleCurrencyInput);
+        document.getElementById('capitalImprovements').addEventListener('input', handleCurrencyInput);
+
+        // Helper function for handling currency inputs
+        function handleCurrencyInput() {
+            let rawValue = this.value.toLowerCase();
+            let value;
+
+            if (rawValue.includes('m')) {
+                value = parseCurrencyString(rawValue);
+                this.value = rawValue.toUpperCase();
+            } else {
+                rawValue = rawValue.replace(/,/g, '');
+                value = parseFloat(rawValue) || 0;
+                if (!isNaN(value)) {
+                    this.value = formatNumberWithCommas(value);
+                }
+            }
+            calculateResults();
+        }
+
+        // Initial calculation on page load
+        calculateResults();
+
+        // Add local storage functions
+        function encryptData(data) {
+            try {
+                const jsonString = JSON.stringify(data);
+                return btoa(jsonString); // Base64 encode
+            } catch (e) {
+                console.error('Encryption failed:', e);
+                return null;
+            }
+        }
+
+        function decryptData(encryptedData) {
+            try {
+                const jsonString = atob(encryptedData); // Base64 decode
+                return JSON.parse(jsonString);
+            } catch (e) {
+                console.error('Decryption failed:', e);
+                return null;
+            }
+        }
+
+        function saveToLocalStorage(section) {
+            if (section === 'income') {
+                const incomeData = {
+                    salary1: document.getElementById('salary').value,
+                    salary2: document.getElementById('salary2').value
+                };
+                const encryptedData = encryptData(incomeData);
+                if (encryptedData) {
+                    localStorage.setItem('incomeData', encryptedData);
+                    showSaveMessage('Income data saved and encrypted!');
+                }
+            } else if (section === 'expenses') {
+                const expenseData = {
+                    monthlyExpenses: document.getElementById('monthlyExpenses').value,
+                    currentMortgage: document.getElementById('currentMortgage').value
+                };
+                const encryptedData = encryptData(expenseData);
+                if (encryptedData) {
+                    localStorage.setItem('expenseData', encryptedData);
+                    showSaveMessage('Expense data saved and encrypted!');
+                }
+            } else if (section === 'assets') {
+                const assetData = {
+                    currentSavings: document.getElementById('currentSavings').value,
+                    otherAssets: document.getElementById('otherAssets').value,
+                    propertyGrowthRate: document.getElementById('propertyGrowthRate').value
+                };
+                const encryptedData = encryptData(assetData);
+                if (encryptedData) {
+                    localStorage.setItem('assetData', encryptedData);
+                    showSaveMessage('Asset data saved and encrypted!');
+                }
+            }
+        }
+
+        function loadFromLocalStorage() {
+            // Load income data
+            const savedIncomeData = localStorage.getItem('incomeData');
+            if (savedIncomeData) {
+                const incomeData = decryptData(savedIncomeData);
+                if (incomeData) {
+                    document.getElementById('salary').value = incomeData.salary1;
+                    document.getElementById('salary2').value = incomeData.salary2;
+                }
+            }
+
+            // Load expense data
+            const savedExpenseData = localStorage.getItem('expenseData');
+            if (savedExpenseData) {
+                const expenseData = decryptData(savedExpenseData);
+                if (expenseData) {
+                    document.getElementById('monthlyExpenses').value = expenseData.monthlyExpenses;
+                    document.getElementById('currentMortgage').value = expenseData.currentMortgage;
+                }
+            }
+
+            // Load asset data
+            const savedAssetData = localStorage.getItem('assetData');
+            if (savedAssetData) {
+                const assetData = decryptData(savedAssetData);
+                if (assetData) {
+                    document.getElementById('currentSavings').value = assetData.currentSavings;
+                    document.getElementById('otherAssets').value = assetData.otherAssets;
+                    document.getElementById('propertyGrowthRate').value = assetData.propertyGrowthRate;
+                }
+            }
+
+            // Recalculate after loading saved data
+            calculateResults();
+        }
+
+        function showSaveMessage(message) {
+            const existingMessage = document.getElementById('saveMessage');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+
+            const messageDiv = document.createElement('div');
+            messageDiv.id = 'saveMessage';
+            messageDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background-color: #27ae60;
+                color: white;
+                padding: 10px 20px;
+                border-radius: 4px;
+                z-index: 1000;
+                opacity: 1;
+                transition: opacity 0.5s ease-in-out;
+            `;
+            messageDiv.textContent = message;
+            document.body.appendChild(messageDiv);
+
+            setTimeout(() => {
+                messageDiv.style.opacity = '0';
+                setTimeout(() => messageDiv.remove(), 500);
+            }, 2000);
+        }
+
+        // Load saved data when page loads
+        window.addEventListener('load', function () {
+            loadFromLocalStorage();
+            updateAmortizationSchedule();  // Initialize amortization schedule
+        });
+
+        // Update the chart creation in calculateResults function
+        function createAssetChart(projectionData) {
+            const chartContainer = document.getElementById('assetProjectionChart');
+            const maxAssets = projectionData[projectionData.length - 1].totalAssets;
+
+            let chartHTML = '<div class="bar-chart">';
+            chartHTML += '<h3>Asset Projection Over Time</h3>';
+
+            // Add legend
+            chartHTML += '<div class="legend">';
+            chartHTML += '<div class="legend-item">';
+            chartHTML += '<div class="legend-color" style="background-color: #e74c3c;"></div>';
+            chartHTML += '<span>Fixed Assets</span>';
+            chartHTML += '</div>';
+            chartHTML += '<div class="legend-item">';
+            chartHTML += '<div class="legend-color" style="background-color: #3498db;"></div>';
+            chartHTML += '<span>Liquid Assets</span>';
+            chartHTML += '</div>';
+            chartHTML += '</div>';
+
+            chartHTML += '<div class="bar-container">';
+
+            projectionData.forEach(data => {
+                const totalHeight = (data.totalAssets / maxAssets * 100).toFixed(2);
+                const fixedHeight = (data.fixedAssets / maxAssets * 100).toFixed(2);
+                const liquidHeight = (data.liquidAssets / maxAssets * 100).toFixed(2);
+
+                chartHTML += `
+                    <div class="bar" style="height: 100%">
+                        <div class="bar-fixed" style="height: ${fixedHeight}%">
+                            <div class="bar-value">
+                                ${formatCurrency(data.fixedAssets)}<br>
+                                <small>(${data.fixedAssetsPercentage}% of total)</small>
+                            </div>
+                        </div>
+                        <div class="bar-liquid" style="height: ${liquidHeight}%; bottom: ${fixedHeight}%">
+                            <div class="bar-value">${formatCurrency(data.liquidAssets)}</div>
+                        </div>
+                        <div class="bar-label">Year ${data.year}</div>
+                    </div>
+                `;
+            });
+
+            chartHTML += '</div></div>';
+            chartContainer.innerHTML = chartHTML;
+        }
+
+        // Create comparison the cash accumulation chart of buying the property vs not buying the property
+        function createPropertyImpactChart() {
+            const holdingPeriod = parseInt(document.getElementById('holdingPeriod').value);
+            const projectionYears = Math.max(holdingPeriod, parseInt(document.getElementById('projectionYears').value));
+
+            // Get current financial state, return current savings and annual savings (without property
+            function getAnnualSaving() {
+                const currentSavings = parseCurrencyString(document.getElementById('currentSavings').value);
+                const monthlyAfterTaxIncome = (parseCurrencyString(document.getElementById('salary').value) - calculateTax(parseCurrencyString(document.getElementById('salary').value)) +
+                    parseCurrencyString(document.getElementById('salary2').value) - calculateTax(parseCurrencyString(document.getElementById('salary2').value))) / 12;
+                const monthlyExpenses = parseCurrencyString(document.getElementById('monthlyExpenses').value);
+                const currentMortgage = parseCurrencyString(document.getElementById('currentMortgage').value);
+
+                // Calculate annual savings without property
+                const annualSavingsWithoutProperty = (monthlyAfterTaxIncome - monthlyExpenses - currentMortgage) * 12;
+                return { currentSavings, annualSavingsWithoutProperty };
+            }
+            const { currentSavings, annualSavingsWithoutProperty } = getAnnualSaving();
+
+            // Function to calculate net annual cash flow from property inputs
+            function getNetAnnualCashFlow() {
+                const purchasePrice = parseCurrencyString(document.getElementById('purchasePrice').value);
+                const deposit = parseCurrencyString(document.getElementById('deposit').value);
+                const weeklyRent = parseCurrencyString(document.getElementById('annualRental').value);
+                const annualRent = weeklyRent * 52;
+                const interestRate = parseFloat(document.getElementById('interestRate').value) / 100;
+                const loanAmount = purchasePrice - deposit;
+                const pmFeesRate = parseFloat(document.getElementById('pmFees').value) / 100;
+                const annualOperatingCosts = parseFloat(document.getElementById('councilRates').value) +
+                    parseFloat(document.getElementById('landTax').value) +
+                    parseFloat(document.getElementById('insurance').value) +
+                    parseFloat(document.getElementById('maintenance').value) +
+                    parseFloat(document.getElementById('waterRates').value);
+
+                const annualLoanPayment = loanAmount * interestRate;
+                const annualPropertyCosts = annualOperatingCosts + (annualRent * pmFeesRate);
+                return {
+                    netCashFlow: annualRent - annualLoanPayment - annualPropertyCosts,
+                    purchasePrice,
+                    deposit,
+                    loanAmount,
+                    annualRent,
+                    interestRate,
+                    annualGrowth: parseFloat(document.getElementById('annualGrowth').value) / 100
+                };
+            }
+
+            // Get property details and cash flow
+            const propertyDetails = getNetAnnualCashFlow();
+            const netAnnualCashFlow = propertyDetails.netCashFlow;
+            const purchasePrice = propertyDetails.purchasePrice;
+            const deposit = propertyDetails.deposit;
+            const loanAmount = propertyDetails.loanAmount;
+            const annualRent = propertyDetails.annualRent;
+            const interestRate = propertyDetails.interestRate;
+            const annualGrowth = propertyDetails.annualGrowth;
+
+            // Generate comparison data
+            const comparisonData = [];
+            let withoutPropertyCash = currentSavings;
+            // Calculate buying costs
+            const stampDuty = calculateStampDuty(purchasePrice);
+            const buyerLegalFees = parseFloat(document.getElementById('buyerLegalFees').value);
+            const buyingCosts = stampDuty + buyerLegalFees;
+            let withPropertyCash = currentSavings - deposit - buyingCosts; // Start with savings minus deposit and buying costs
+
+            for (let year = 0; year <= projectionYears; year++) {
+                let saleProceeds = 0;
+                // Calculate and add sale proceeds in the year of sale
+                if (year === holdingPeriod) {
+                    // Calculate sale price
+                    const salePrice = purchasePrice * Math.pow(1 + annualGrowth, holdingPeriod);
+
+                    // Calculate selling costs
+                    const sellerAgentRate = parseFloat(document.getElementById('sellerAgentFees').value) / 100;
+                    const sellerLegalFees = parseFloat(document.getElementById('sellerLegalFees').value);
+                    const sellingCosts = (salePrice * sellerAgentRate) + sellerLegalFees;
+
+                    // Calculate remaining loan balance
+                    let remainingLoanBalance = loanAmount;
+                    if (document.getElementById('loanType').value === 'PI') {
+                        const monthlyRate = interestRate / 12;
+                        const monthlyPayment = loanAmount *
+                            (monthlyRate * Math.pow(1 + monthlyRate, 360)) /
+                            (Math.pow(1 + monthlyRate, 360) - 1);
+
+                        let balance = loanAmount;
+                        for (let i = 0; i < holdingPeriod * 12; i++) {
+                            const interestThisMonth = balance * monthlyRate;
+                            const principalThisMonth = monthlyPayment - interestThisMonth;
+                            balance -= principalThisMonth;
+                        }
+                        remainingLoanBalance = Math.max(0, balance);
+                    }
+
+                    // Calculate net proceeds before tax
+                    const netProceedsBeforeTax = salePrice - sellingCosts - remainingLoanBalance;
+
+                    // Calculate capital gains tax
+                    const grossGain = salePrice - purchasePrice;
+                    const taxableGain = grossGain * 0.5; // 50% CGT discount
+                    const marginalTaxRate = parseFloat(document.getElementById('marginalTaxRate').value) / 100;
+                    const cgt = taxableGain * marginalTaxRate;
+
+                    // Final net proceeds after tax
+                    saleProceeds = netProceedsBeforeTax - cgt;
+                    withPropertyCash += saleProceeds;
+                }
+
+                let yearData = {
+                    year: year,
+                    withoutProperty: withoutPropertyCash,
+                    withProperty: withPropertyCash
+                };
+
+                comparisonData.push(yearData);
+
+                // Calculate next year's values
+                if (year < projectionYears) {
+                    // Without property: add annual savings
+                    withoutPropertyCash += annualSavingsWithoutProperty;
+
+                    // With property 
+                    if (year >= holdingPeriod) {
+                        // After selling, just add annual savings
+                        withPropertyCash += annualSavingsWithoutProperty;
+                    } else {
+                        // Before selling, add savings plus property cash flow
+                        withPropertyCash += annualSavingsWithoutProperty + netAnnualCashFlow;
+                    }
+                }
+            }
+
+            // Create the comparison chart of buying the property vs not buying the property
+            const chartContainer = document.getElementById('propertyImpactChart');
+            const maxValue = Math.max(
+                Math.max(...comparisonData.map(d => d.withoutProperty)),
+                Math.max(...comparisonData.map(d => d.withProperty))
+            );
+
+            let chartHTML = '<div class="bar-chart">';
+            chartHTML += '<h3>Cash Accumulation Comparison (Buying vs Not Buying)</h3>';
+
+            // Add legend
+            chartHTML += '<div class="legend">';
+            chartHTML += '<div class="legend-item">';
+            chartHTML += '<div class="legend-color" style="background-color: #2ecc71;"></div>';
+            chartHTML += '<span>Without Investment Property</span>';
+            chartHTML += '</div>';
+            chartHTML += '<div class="legend-item">';
+            chartHTML += '<div class="legend-color" style="background-color: #9b59b6;"></div>';
+            chartHTML += '<span>With Investment Property</span>';
+            chartHTML += '</div>';
+            chartHTML += '<div class="legend-item">';
+            chartHTML += '<div class="legend-color" style="background-color: #e74c3c;"></div>';
+            chartHTML += '<span>Downpayment</span>';
+            chartHTML += '</div>';
+            chartHTML += '<div class="legend-item">';
+            chartHTML += '<div class="legend-color" style="background-color: #f1c40f;"></div>';
+            chartHTML += '<span>Sale Proceeds</span>';
+            chartHTML += '</div>';
+            chartHTML += '</div>';
+
+            chartHTML += '<div class="bar-container">';
+
+            comparisonData.forEach(data => {
+                const withoutPropertyHeight = (data.withoutProperty / maxValue * 100).toFixed(2);
+                const withPropertyHeight = (data.withProperty / maxValue * 100).toFixed(2);
+
+                chartHTML += `
+                    <div class="bar-group">
+                        <div class="bar-without-property" style="height: ${withoutPropertyHeight}%;">
+                            <div class="bar-value">
+                                ${formatCurrency(data.withoutProperty)}
+                            </div>
+                        </div>
+                        <div class="bar-with-property" style="height: ${withPropertyHeight}%; ${data.year === holdingPeriod ? 'background-color: #f1c40f;' : ''}">
+                            <div class="bar-value">
+                                ${formatCurrency(data.withProperty)}
+                                ${data.year === holdingPeriod ? `<br><small>(Sale year)</small>` : ''}
+                            </div>
+                        </div>
+                        <div class="bar-label">Year ${data.year}</div>
+                    </div>
+                `;
+            });
+
+            chartHTML += '</div></div>';
+            chartContainer.innerHTML = chartHTML;
+        }
+
+        // Add stamp duty calculation function
+        function calculateStampDuty(price) {
+            if (price <= 16000) {
+                return price * 0.0125; // $1.25 for every $100
+            } else if (price <= 35000) {
+                return 200 + (price - 16000) * 0.015; // $200 + $1.50 for every $100 over $16,000
+            } else if (price <= 93000) {
+                return 505 + (price - 35000) * 0.0175; // $505 + $1.75 for every $100 over $35,000
+            } else if (price <= 351000) {
+                return 1490 + (price - 93000) * 0.035; // $1,490 + $3.50 for every $100 over $93,000
+            } else if (price <= 1168000) {
+                return 10440 + (price - 351000) * 0.045; // $10,440 + $4.50 for every $100 over $351,000
+            } else {
+                return 52560 + (price - 1168000) * 0.055; // $52,560 + $5.50 for every $100 over $1,168,000
+            }
+        }
+
+        // Add function to calculate loan amortization schedule
+        function updateAmortizationSchedule() {
+            const loanAmount = parseCurrencyString(document.getElementById('purchasePrice').value) -
+                parseCurrencyString(document.getElementById('deposit').value);
+            const interestRate = parseFloat(document.getElementById('interestRate').value) / 100;
+            const monthlyRate = interestRate / 12;
+            const monthlyPayment = loanAmount *
+                (monthlyRate * Math.pow(1 + monthlyRate, 360)) /
+                (Math.pow(1 + monthlyRate, 360) - 1);
+
+            let scheduleHTML = '';
+            let balance = loanAmount;
+            let yearlyInterest = 0;
+            let yearlyPrincipal = 0;
+
+            // First row shows initial loan amount
+            scheduleHTML += `
+                <tr style="border-bottom: 1px solid #dee2e6;">
+                    <td style="padding: 12px;">30</td>
+                    <td style="padding: 12px; text-align: right;">${formatCurrency(loanAmount)}</td>
+                    <td style="padding: 12px; text-align: right;">-</td>
+                    <td style="padding: 12px; text-align: right;">-</td>
+                </tr>`;
+
+            // Calculate for each year, starting from year 29
+            for (let year = 29; year >= 0; year--) {
+                yearlyInterest = 0;
+                yearlyPrincipal = 0;
+
+                // Calculate monthly payments for this year
+                for (let month = 0; month < 12; month++) {
+                    const interestThisMonth = balance * monthlyRate;
+                    const principalThisMonth = monthlyPayment - interestThisMonth;
+
+                    yearlyInterest += interestThisMonth;
+                    yearlyPrincipal += principalThisMonth;
+                    balance -= principalThisMonth;
+                }
+
+                // Add row to table
+                scheduleHTML += `
+                    <tr style="border-bottom: 1px solid #dee2e6;">
+                        <td style="padding: 12px;">${year}</td>
+                        <td style="padding: 12px; text-align: right;">${formatCurrency(Math.max(0, balance))}</td>
+                        <td style="padding: 12px; text-align: right;">${formatCurrency(yearlyInterest)}</td>
+                        <td style="padding: 12px; text-align: right;">${formatCurrency(yearlyPrincipal)}</td>
+                    </tr>
+                `;
+            }
+
+            // Update the table
+            document.getElementById('amortizationTableBody').innerHTML = scheduleHTML;
+        }
+
+        // Add event listener for loan amortization schedule updates
+        document.getElementById('purchasePrice').addEventListener('input', updateAmortizationSchedule);
+        document.getElementById('deposit').addEventListener('input', updateAmortizationSchedule);
+        document.getElementById('interestRate').addEventListener('input', updateAmortizationSchedule);
+        document.getElementById('loanType').addEventListener('change', updateAmortizationSchedule);
+    </script>
+
+    <div class="section-title">Loan Amortization Schedule</div>
+    <div class="projection-section">
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                <thead>
+                    <tr style="background-color: #f8f9fa;">
+                        <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Years remaining
+                        </th>
+                        <th style="padding: 12px; text-align: right; border-bottom: 2px solid #dee2e6;">Principal
+                            remaining</th>
+                        <th style="padding: 12px; text-align: right; border-bottom: 2px solid #dee2e6;">Annual Interest
+                        </th>
+                        <th style="padding: 12px; text-align: right; border-bottom: 2px solid #dee2e6;">Principal Paid
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="amortizationTableBody">
+                    <!-- Will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
