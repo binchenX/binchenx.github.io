@@ -1253,19 +1253,23 @@
             // Parse income values
             const salaryInput = document.getElementById('salary');
             const salary2Input = document.getElementById('salary2');
+            const otherIncomeInput = document.getElementById('otherIncome');
             const salary1 = parseCurrencyString(salaryInput.value);
             const salary2 = parseCurrencyString(salary2Input.value);
+            const otherIncome = parseCurrencyString(otherIncomeInput.value);
 
             // Calculate tax for each salary separately
             const taxPayable1 = calculateTax(salary1);
             const taxPayable2 = calculateTax(salary2);
+            const taxPayableOther = calculateTax(otherIncome);
             const afterTaxIncome1 = salary1 - taxPayable1;
             const afterTaxIncome2 = salary2 - taxPayable2;
+            const afterTaxOther = otherIncome - taxPayableOther;
 
             // Calculate combined totals
-            const totalTaxPayable = taxPayable1 + taxPayable2;
-            const totalAfterTaxIncome = afterTaxIncome1 + afterTaxIncome2;
-            const effectiveTaxRate = ((taxPayable1 + taxPayable2) / (salary1 + salary2)) * 100;
+            const totalTaxPayable = taxPayable1 + taxPayable2 + taxPayableOther;
+            const totalAfterTaxIncome = afterTaxIncome1 + afterTaxIncome2 + afterTaxOther;
+            const effectiveTaxRate = ((totalTaxPayable) / (salary1 + salary2 + otherIncome)) * 100;
 
             // Update tax results
             let taxHTML = '';
@@ -1398,24 +1402,14 @@
             // Cash flow calculations
             const preTaxCashFlow = annualRent - annualLoanPayment - totalOperatingCosts;
             const propertyMonthlyImpact = preTaxCashFlow / 12;
-            // Not a accurate calculation for tax benefit - not all net negative cash flow is tax deductible
-            // For P&I loans, only the interest portion is tax deductible
-            // This is a simplified calculation and may overstate the tax benefits
-            // Todo: Fix this later - there is already a calculation for tax benefit in the tax comparison section
             const taxBenefit = preTaxCashFlow < 0 ? Math.abs(preTaxCashFlow) * marginalTaxRate : 0;
             const netCashFlow = preTaxCashFlow + taxBenefit;
-            const totalHoldingCosts = (Math.abs(netCashFlow) * holdingPeriod) + buySellCosts;
 
-            // Capital gain calculations, use the following formula:
-            // Capital Gain = Sales Price - (Adjusted Basis + Selling Costs)
-            // Adjusted Basis = Purchase Price + Capital Improvements - Accumulated Depreciation
-            // We don't have capital improvements or accumulated depreciation yet, do it later
-            // This gross gain is meaningless and seems only for tax purposes, your net profit will be much lower
-            // We won't use "Accumulated Depreciation" here, will ajust it later with annualizedROIWithTaxBenefits
-            // Actully you have to include the accumulated depreciation in the adjusted cost base, since that is 
-            // enforced by the tax office. Omit meansing you overestimate the capital gain.
-            // TIL: the negative gearing benefit you may get before selling will have to "hand back" when selling it
-            // those tax benefits are considered as your "gain" when selling it
+            // Only include negative cash flow in holding costs
+            const holdingCosts = netCashFlow < 0 ? Math.abs(netCashFlow) * holdingPeriod : 0;
+            const totalHoldingCosts = holdingCosts + buySellCosts;
+
+            // Capital gain calculations
             const capitalImprovements = parseCurrencyString(document.getElementById('capitalImprovements').value);
             const accumulatedDepreciation = getBuildingDepreciationPerYear() * holdingPeriod;
             const adjustedCostBase = purchasePrice + buyingCosts + capitalImprovements - accumulatedDepreciation;
@@ -1427,7 +1421,14 @@
             // Net profit calculation - account for loan principal reduction in P&I loans
             const endingLoanBalance = calculateEndingLoanBalance(loanAmount, loanType, annualLoanPayment, monthlyRate, holdingPeriod);
             const principalReduction = loanAmount - endingLoanBalance;
-            const netProfit = afterTaxCapitalGain - totalHoldingCosts + principalReduction;
+
+            // For net profit, we should:
+            // 1. Add positive cash flows
+            // 2. Subtract negative cash flows (already in totalHoldingCosts)
+            // 3. Add capital gains
+            // 4. Add principal reduction
+            const positiveCashFlow = netCashFlow > 0 ? netCashFlow * holdingPeriod : 0;
+            const netProfit = afterTaxCapitalGain - totalHoldingCosts + principalReduction + positiveCashFlow;
 
             // Return calculations
             const totalInvestment = deposit + buySellCosts; // Total money invested upfront
@@ -1437,16 +1438,38 @@
             const actualCapitalGrowth = (Math.pow(salePrice / purchasePrice, 1 / holdingPeriod) - 1) * 100; // Realized growth rate
             const afterTaxCapitalGrowth = (Math.pow((salePrice - cgt) / purchasePrice, 1 / holdingPeriod) - 1) * 100; // After tax
 
-            // Total ROI (includes everything)
-            const annualizedROI = (Math.pow((totalReturn / totalInvestment) + 1, 1 / holdingPeriod) - 1) * 100;
+            // Total ROI (includes everything) - Handle large numbers by scaling
+            let annualizedROI;
+            try {
+                // Scale down numbers if they're too large
+                const scaleFactor = Math.max(1, Math.floor(Math.log10(Math.max(totalReturn, totalInvestment))));
+                const scaledReturn = totalReturn / Math.pow(10, scaleFactor);
+                const scaledInvestment = totalInvestment / Math.pow(10, scaleFactor);
+                annualizedROI = (Math.pow((scaledReturn / scaledInvestment) + 1, 1 / holdingPeriod) - 1) * 100;
+            } catch (e) {
+                console.error('ROI calculation error:', e);
+                annualizedROI = 0;
+            }
 
             // Calculate total tax benefits over holding period
             const totalTaxBenefits = taxBenefit * holdingPeriod; // Annual tax savings * holding period
             const totalReturnWithTaxBenefits = totalReturn + totalTaxBenefits;
-            const annualizedROIWithTaxBenefits = (Math.pow((totalReturnWithTaxBenefits / totalInvestment) + 1, 1 / holdingPeriod) - 1) * 100;
+
+            // ROI with tax benefits - Handle large numbers by scaling
+            let annualizedROIWithTaxBenefits;
+            try {
+                // Scale down numbers if they're too large
+                const scaleFactor = Math.max(1, Math.floor(Math.log10(Math.max(totalReturnWithTaxBenefits, totalInvestment))));
+                const scaledReturn = totalReturnWithTaxBenefits / Math.pow(10, scaleFactor);
+                const scaledInvestment = totalInvestment / Math.pow(10, scaleFactor);
+                annualizedROIWithTaxBenefits = (Math.pow((scaledReturn / scaledInvestment) + 1, 1 / holdingPeriod) - 1) * 100;
+            } catch (e) {
+                console.error('ROI with tax benefits calculation error:', e);
+                annualizedROIWithTaxBenefits = 0;
+            }
 
             // Cash yield (annual rental return percentage)
-            const cashYield = (netCashFlow / totalInvestment) * 100;
+            const cashYield = totalInvestment !== 0 ? (netCashFlow / totalInvestment) * 100 : 0;
 
             // Opportunity cost calculation
             const interestSaved = deposit * offsetRate * holdingPeriod;
@@ -1739,7 +1762,8 @@
             const purchasePrice = parseCurrencyString(document.getElementById('purchasePrice').value);
             if (purchasePrice > 0) {
                 const annualRent = weeklyRental * 52;
-                const newYield = (annualRent / purchasePrice) * 100;
+                // Handle potential floating point precision issues
+                const newYield = Number(((annualRent / purchasePrice) * 100).toFixed(3));
                 document.getElementById('rentalYield').value = newYield.toFixed(1);
             }
 
@@ -1822,6 +1846,7 @@
         // Add event listeners for income fields
         document.getElementById('salary').addEventListener('input', handleCurrencyInput);
         document.getElementById('salary2').addEventListener('input', handleCurrencyInput);
+        document.getElementById('otherIncome').addEventListener('input', handleCurrencyInput);
 
         // Add event listeners for depreciation fields
         document.getElementById('landValuePercent').addEventListener('input', calculateResults);
@@ -1851,7 +1876,7 @@
                     this.value = formatNumberWithCommas(value);
                 }
             }
-            calculateResults();
+            calculateResults();  // Make sure this is called
         }
 
         // Initial calculation on page load
