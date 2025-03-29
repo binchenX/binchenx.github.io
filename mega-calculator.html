@@ -812,22 +812,43 @@
             <section id="loan-amortization">
                 <div class="section-title">Loan Amortization Schedule</div>
                 <div class="projection-section">
+                    <!-- Add Loan Summary -->
+                    <div class="loan-summary"
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; background-color: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #3498db;">
+                        <div>
+                            <h3 style="color: #2c3e50; margin-bottom: 10px;">Loan Amount</h3>
+                            <div id="loanAmountSummary" style="font-size: 20px; font-weight: bold; color: #e74c3c;">
+                                $960,000</div>
+                        </div>
+                        <div>
+                            <h3 style="color: #2c3e50; margin-bottom: 10px;">Loan Type</h3>
+                            <div id="loanTypeSummary" style="font-size: 20px; font-weight: bold; color: #3498db;">
+                                Principal & Interest</div>
+                        </div>
+                        <div>
+                            <h3 style="color: #2c3e50; margin-bottom: 10px;">Interest Rate</h3>
+                            <div id="interestRateSummary" style="font-size: 20px; font-weight: bold; color: #2ecc71;">
+                                6.0%</div>
+                        </div>
+                        <div>
+                            <h3 style="color: #2c3e50; margin-bottom: 10px;">Monthly Payment</h3>
+                            <div id="monthlyPaymentSummary" style="font-size: 20px; font-weight: bold; color: #9b59b6;">
+                                $5,757</div>
+                        </div>
+                    </div>
+
                     <div style="overflow-x: auto;">
                         <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
                             <thead>
                                 <tr style="background-color: #f8f9fa;">
-                                    <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Years
-                                        remaining
+                                    <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Year
                                     </th>
                                     <th style="padding: 12px; text-align: right; border-bottom: 2px solid #dee2e6;">
-                                        Principal
-                                        remaining</th>
+                                        Principal remaining</th>
                                     <th style="padding: 12px; text-align: right; border-bottom: 2px solid #dee2e6;">
-                                        Annual Interest
-                                    </th>
+                                        Annual Interest</th>
                                     <th style="padding: 12px; text-align: right; border-bottom: 2px solid #dee2e6;">
-                                        Principal Paid
-                                    </th>
+                                        Principal Paid</th>
                                 </tr>
                             </thead>
                             <tbody id="amortizationTableBody">
@@ -841,6 +862,19 @@
     </main>
 
     <script>
+        // Domain verification
+        (function () {
+            const allowedDomains = ['skyx.au', 'binchenx'];
+            const currentDomain = window.location.hostname.toLowerCase();
+            const isLocalFile = window.location.protocol === 'file:';
+            const isDomainAllowed = isLocalFile || allowedDomains.some(domain => currentDomain.includes(domain));
+
+            if (!isDomainAllowed) {
+                document.body.innerHTML = '<div style="text-align: center; padding: 50px;"><h1>Access Denied</h1><p>This calculator is only available on authorized domains.</p></div>';
+                return;
+            }
+        })();
+
         // Add a function to parse currency strings with million notation
         function parseCurrencyString(value) {
             if (typeof value !== 'string') return parseFloat(value) || 0;
@@ -1978,6 +2012,13 @@
             const monthlyPayment = loanAmount *
                 (monthlyRate * Math.pow(1 + monthlyRate, 360)) /
                 (Math.pow(1 + monthlyRate, 360) - 1);
+            const loanType = document.getElementById('loanType').value;
+
+            // Update loan summary
+            document.getElementById('loanAmountSummary').textContent = formatCurrency(loanAmount);
+            document.getElementById('loanTypeSummary').textContent = loanType === 'PI' ? 'Principal & Interest' : 'Interest Only';
+            document.getElementById('interestRateSummary').textContent = (interestRate * 100).toFixed(1) + '%';
+            document.getElementById('monthlyPaymentSummary').textContent = formatCurrency(loanType === 'PI' ? monthlyPayment : (loanAmount * monthlyRate));
 
             let scheduleHTML = '';
             let balance = loanAmount;
@@ -1987,7 +2028,7 @@
             // First row shows initial loan amount
             scheduleHTML += `
                 <tr style="border-bottom: 1px solid #dee2e6;">
-                    <td style="padding: 12px;">30</td>
+                    <td style="padding: 12px;">0</td>
                     <td style="padding: 12px; text-align: right;">${formatCurrency(loanAmount)}</td>
                     <td style="padding: 12px; text-align: right;">-</td>
                     <td style="padding: 12px; text-align: right;">-</td>
@@ -2011,7 +2052,7 @@
                 // Add row to table
                 scheduleHTML += `
                     <tr style="border-bottom: 1px solid #dee2e6;">
-                        <td style="padding: 12px;">${year}</td>
+                        <td style="padding: 12px;">${30 - year}</td>
                         <td style="padding: 12px; text-align: right;">${formatCurrency(Math.max(0, balance))}</td>
                         <td style="padding: 12px; text-align: right;">${formatCurrency(yearlyInterest)}</td>
                         <td style="padding: 12px; text-align: right;">${formatCurrency(yearlyPrincipal)}</td>
