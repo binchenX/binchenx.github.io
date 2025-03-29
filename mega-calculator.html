@@ -2,11 +2,73 @@
 <html lang="en">
 
 <head>
+    <!-- Google Analytics -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5494979508153382"
         crossorigin="anonymous"></script>
+
+    <!-- Primary Meta Tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mega Calculator: Tax, Mortgage, Cash flow, and Investment Property</title>
+    <meta name="description"
+        content="Free Investment Property Calculator: Calculate mortgage payments, rental yield, tax benefits, ROI, and cash flow analysis. Make smarter property investment decisions.">
+    <meta name="keywords"
+        content="property calculator, investment calculator, mortgage calculator, rental yield calculator, property investment, negative gearing, tax benefits, ROI calculator">
+    <meta name="author" content="Skyx">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://skyx.au/mega-calculator.html">
+    <meta property="og:title" content="Investment Property Calculator | Tax, Mortgage, Cash Flow Analysis">
+    <meta property="og:description"
+        content="Free Investment Property Calculator: Calculate mortgage payments, rental yield, tax benefits, ROI, and cash flow analysis. Make smarter property investment decisions.">
+    <meta property="og:image" content="https://skyx.au/img/calculator-preview.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://skyx.au/mega-calculator.html">
+    <meta property="twitter:title" content="Investment Property Calculator | Tax, Mortgage, Cash Flow Analysis">
+    <meta property="twitter:description"
+        content="Free Investment Property Calculator: Calculate mortgage payments, rental yield, tax benefits, ROI, and cash flow analysis. Make smarter property investment decisions.">
+    <meta property="twitter:image" content="https://skyx.au/img/calculator-preview.jpg">
+
+    <title>Investment Property Calculator | Tax, Mortgage, Cash Flow Analysis | Skyx</title>
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://skyx.au/mega-calculator.html">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Investment Property Calculator",
+      "description": "Comprehensive investment property calculator for analyzing property investments, including tax benefits, mortgage payments, and ROI calculations.",
+      "url": "https://skyx.au/mega-calculator.html",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "AUD"
+      },
+      "featureList": [
+        "Property investment analysis",
+        "Mortgage payment calculations",
+        "Tax benefit estimations",
+        "ROI projections",
+        "Cash flow analysis",
+        "Depreciation calculations"
+      ],
+      "provider": {
+        "@type": "Organization",
+        "name": "Skyx",
+        "url": "https://skyx.au"
+      }
+    }
+    </script>
+
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -366,373 +428,417 @@
 </head>
 
 <body>
-    <h1>Mega Calculator: Tax, Mortgage, Cash flow, and Investment Property</h1>
+    <main>
+        <article>
+            <header>
+                <h1>Investment Property Calculator</h1>
+                <p class="lead">Calculate tax benefits, mortgage payments, cash flow, and return on investment for your
+                    property investment decisions.</p>
+            </header>
 
-    <div class="section-title">Income & Tax Analysis</div>
-    <div class="income-section">
-        <div class="income-input">
-            <div class="section-header">
-                <h2>Income Details</h2>
-                <button onclick="saveToLocalStorage('income')" class="save-button">Save Income</button>
-            </div>
-            <div class="field-group">
-                <label for="salary">Annual Salary 1 ($)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">First person's annual salary before
-                            tax</span></span>
-                </label>
-                <input type="text" id="salary" value="120,000" inputmode="numeric">
-            </div>
+            <section id="income-tax-analysis">
+                <div class="section-title">Income & Tax Analysis</div>
+                <div class="income-section">
+                    <div class="income-input">
+                        <div class="section-header">
+                            <h2>Income Details</h2>
+                            <button onclick="saveToLocalStorage('income')" class="save-button">Save Income</button>
+                        </div>
+                        <div class="field-group">
+                            <label for="salary">Annual Salary 1 ($)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">First person's annual salary before
+                                        tax</span></span>
+                            </label>
+                            <input type="text" id="salary" value="120,000" inputmode="numeric">
+                        </div>
 
-            <div class="field-group">
-                <label for="salary2">Annual Salary 2 ($)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Second person's annual salary before
-                            tax</span></span>
-                </label>
-                <input type="text" id="salary2" value="80,000" inputmode="numeric">
-            </div>
+                        <div class="field-group">
+                            <label for="salary2">Annual Salary 2 ($)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Second person's annual salary before
+                                        tax</span></span>
+                            </label>
+                            <input type="text" id="salary2" value="80,000" inputmode="numeric">
+                        </div>
 
-            <div class="field-group">
-                <label for="otherIncome">Other Taxable Income ($)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Additional taxable income (e.g., bonuses,
-                            dividends)</span></span>
-                </label>
-                <input type="text" id="otherIncome" value="0" inputmode="numeric">
-            </div>
-        </div>
+                        <div class="field-group">
+                            <label for="otherIncome">Other Taxable Income ($)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Additional taxable income (e.g.,
+                                        bonuses,
+                                        dividends)</span></span>
+                            </label>
+                            <input type="text" id="otherIncome" value="0" inputmode="numeric">
+                        </div>
+                    </div>
 
-        <div class="income-results">
-            <h2>Tax Summary</h2>
-            <div id="taxContainer">
-                <!-- Tax results will appear here -->
-            </div>
-        </div>
-    </div>
+                    <div class="income-results">
+                        <h2>Tax Summary</h2>
+                        <div id="taxContainer">
+                            <!-- Tax results will appear here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-    <div class="section-title">Cash Flow & Asset</div>
-    <div class="income-section">
-        <div class="income-input">
-            <div class="section-header">
-                <h2>Expenses</h2>
-                <button onclick="saveToLocalStorage('expenses')" class="save-button">Save Expenses</button>
-            </div>
-            <div class="field-group">
-                <label for="monthlyExpenses">Monthly Living Expenses ($)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Regular monthly expenses including utilities,
-                            groceries, etc.</span></span>
-                </label>
-                <input type="text" id="monthlyExpenses" value="4,000" inputmode="numeric">
-            </div>
+            <section id="cash-flow-asset">
+                <div class="section-title">Cash Flow & Asset</div>
+                <div class="income-section">
+                    <div class="income-input">
+                        <div class="section-header">
+                            <h2>Expenses</h2>
+                            <button onclick="saveToLocalStorage('expenses')" class="save-button">Save Expenses</button>
+                        </div>
+                        <div class="field-group">
+                            <label for="monthlyExpenses">Monthly Living Expenses ($)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Regular monthly expenses including
+                                        utilities,
+                                        groceries, etc.</span></span>
+                            </label>
+                            <input type="text" id="monthlyExpenses" value="4,000" inputmode="numeric">
+                        </div>
 
-            <div class="field-group">
-                <label for="currentMortgage">Current Mortgage Payment ($)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Optional: Your current monthly mortgage payment if
-                            any</span></span>
-                </label>
-                <input type="text" id="currentMortgage" value="0" inputmode="numeric">
-            </div>
-        </div>
+                        <div class="field-group">
+                            <label for="currentMortgage">Current Mortgage Payment ($)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Optional: Your current monthly mortgage
+                                        payment if
+                                        any</span></span>
+                            </label>
+                            <input type="text" id="currentMortgage" value="0" inputmode="numeric">
+                        </div>
+                    </div>
 
-        <div class="income-results">
-            <div class="section-header">
-                <h2>Asset Summary</h2>
-                <button onclick="saveToLocalStorage('assets')" class="save-button">Save Assets</button>
-            </div>
-            <div class="field-group">
-                <label for="currentSavings">Liquid Assets - Savings ($)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Total amount in savings/offset
-                            accounts</span></span>
-                </label>
-                <input type="text" id="currentSavings" value="100,000" inputmode="numeric">
-            </div>
+                    <div class="income-results">
+                        <div class="section-header">
+                            <h2>Asset Summary</h2>
+                            <button onclick="saveToLocalStorage('assets')" class="save-button">Save Assets</button>
+                        </div>
+                        <div class="field-group">
+                            <label for="currentSavings">Liquid Assets - Savings ($)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Total amount in savings/offset
+                                        accounts</span></span>
+                            </label>
+                            <input type="text" id="currentSavings" value="100,000" inputmode="numeric">
+                        </div>
 
-            <div class="field-group">
-                <label for="otherAssets">Fixed Assets - Property ($)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Value of owned properties</span></span>
-                </label>
-                <input type="text" id="otherAssets" value="50,000" inputmode="numeric">
-            </div>
+                        <div class="field-group">
+                            <label for="otherAssets">Fixed Assets - Property ($)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Value of owned properties</span></span>
+                            </label>
+                            <input type="text" id="otherAssets" value="50,000" inputmode="numeric">
+                        </div>
 
-            <div class="field-group">
-                <label for="propertyGrowthRate">Property Annual Growth Rate (%)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Expected annual growth rate of property
-                            value</span></span>
-                </label>
-                <input type="number" id="propertyGrowthRate" value="5" step="0.1">
-            </div>
+                        <div class="field-group">
+                            <label for="propertyGrowthRate">Property Annual Growth Rate (%)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Expected annual growth rate of property
+                                        value</span></span>
+                            </label>
+                            <input type="number" id="propertyGrowthRate" value="5" step="0.1">
+                        </div>
 
-            <div id="cashFlowContainer">
-                <!-- Cash flow results will appear here -->
-            </div>
-        </div>
-    </div>
+                        <div id="cashFlowContainer">
+                            <!-- Cash flow results will appear here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-    <div class="section-title">Asset Projection</div>
-    <div class="projection-section">
-        <div class="field-group" style="max-width: 200px; margin-bottom: 20px;">
-            <label for="projectionYears">Projection Years
-                <span class="tooltip">ⓘ<span class="tooltiptext">Number of years to project your asset
-                        growth</span></span>
-            </label>
-            <input type="number" id="projectionYears" value="10" min="1" max="30">
-        </div>
-        <div id="assetProjectionChart">
-            <!-- Asset projection chart will appear here -->
-        </div>
-    </div>
+            <section id="asset-projection">
+                <div class="section-title">Asset Projection</div>
+                <div class="projection-section">
+                    <div class="field-group" style="max-width: 200px; margin-bottom: 20px;">
+                        <label for="projectionYears">Projection Years
+                            <span class="tooltip">ⓘ<span class="tooltiptext">Number of years to project your asset
+                                    growth</span></span>
+                        </label>
+                        <input type="number" id="projectionYears" value="10" min="1" max="30">
+                    </div>
+                    <div id="assetProjectionChart">
+                        <!-- Asset projection chart will appear here -->
+                    </div>
+                </div>
+            </section>
 
-    <div class="section-title">Investment Property Impact Analysis</div>
-    <div class="projection-section">
-        <div id="propertyImpactChart">
-            <!-- Property impact comparison chart will appear here -->
-        </div>
-    </div>
+            <section id="investment-property-impact">
+                <div class="section-title">Investment Property Impact Analysis</div>
+                <div class="projection-section">
+                    <div id="propertyImpactChart">
+                        <!-- Property impact comparison chart will appear here -->
+                    </div>
+                </div>
+            </section>
 
-    <div class="section-title">Tax Comparison</div>
-    <div class="projection-section">
-        <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-            <div class="field-group" style="flex: 1; min-width: 300px;">
-                <h3>Building Depreciation</h3>
-                <label for="landValuePercent">Land Value (% of purchase price)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Typically 50-70% of the total property
-                            value</span></span>
-                </label>
-                <input type="number" id="landValuePercent" value="60" min="0" max="100" step="1">
+            <section id="tax-comparison">
+                <div class="section-title">Tax Comparison</div>
+                <div class="projection-section">
+                    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                        <div class="field-group" style="flex: 1; min-width: 300px;">
+                            <h3>Building Depreciation</h3>
+                            <label for="landValuePercent">Land Value (% of purchase price)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Typically 50-70% of the total property
+                                        value</span></span>
+                            </label>
+                            <input type="number" id="landValuePercent" value="60" min="0" max="100" step="1">
 
-                <label for="buildingDepreciationRate">Building Depreciation Rate (%)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Capital works deduction rate, typically 2.5% per
-                            year</span></span>
-                </label>
-                <input type="number" id="buildingDepreciationRate" value="2.5" min="0" max="10" step="0.1">
-            </div>
+                            <label for="buildingDepreciationRate">Building Depreciation Rate (%)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Capital works deduction rate, typically
+                                        2.5% per
+                                        year</span></span>
+                            </label>
+                            <input type="number" id="buildingDepreciationRate" value="2.5" min="0" max="10" step="0.1">
+                        </div>
 
-            <div class="field-group" style="flex: 1; min-width: 300px;">
-                <h3>Plant & Equipment Depreciation</h3>
-                <label for="equipmentValuePercent">Equipment Value (% of building value)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Typically 10-15% of the building
-                            value</span></span>
-                </label>
-                <input type="number" id="equipmentValuePercent" value="10" min="0" max="100" step="1">
+                        <div class="field-group" style="flex: 1; min-width: 300px;">
+                            <h3>Plant & Equipment Depreciation</h3>
+                            <label for="equipmentValuePercent">Equipment Value (% of building value)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Typically 10-15% of the building
+                                        value</span></span>
+                            </label>
+                            <input type="number" id="equipmentValuePercent" value="10" min="0" max="100" step="1">
 
-                <label for="equipmentDepreciationRate">Equipment Depreciation Rate (%)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Average depreciation rate for plant and equipment
-                            items</span></span>
-                </label>
-                <input type="number" id="equipmentDepreciationRate" value="10" min="0" max="100" step="1">
-            </div>
-        </div>
+                            <label for="equipmentDepreciationRate">Equipment Depreciation Rate (%)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Average depreciation rate for plant and
+                                        equipment
+                                        items</span></span>
+                            </label>
+                            <input type="number" id="equipmentDepreciationRate" value="10" min="0" max="100" step="1">
+                        </div>
+                    </div>
 
-        <div id="taxComparisonContainer" style="margin-top: 20px;">
-            <!-- Tax comparison results will appear here -->
-        </div>
-    </div>
+                    <div id="taxComparisonContainer" style="margin-top: 20px;">
+                        <!-- Tax comparison results will appear here -->
+                    </div>
+                </div>
+            </section>
 
-    <div class="section-title">Property Investment Analysis</div>
-    <div class="property-section">
-        <div class="input-section">
-            <h2>Property Details</h2>
-            <div class="field-group">
-                <label for="purchasePrice">Purchase Price ($)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Initial cost of the property</span></span>
-                </label>
-                <input type="text" id="purchasePrice" value="1,200,000" inputmode="numeric">
-            </div>
+            <section id="property-investment-analysis">
+                <div class="section-title">Property Investment Analysis</div>
+                <div class="property-section">
+                    <div class="input-section">
+                        <h2>Property Details</h2>
+                        <div class="field-group">
+                            <label for="purchasePrice">Purchase Price ($)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Initial cost of the
+                                        property</span></span>
+                            </label>
+                            <input type="text" id="purchasePrice" value="1,200,000" inputmode="numeric">
+                        </div>
 
-            <div class="field-group">
-                <label for="deposit">Deposit ($)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">The deposit amount (typically 20% of purchase
-                            price)</span></span>
-                </label>
-                <input type="text" id="deposit" value="240,000" inputmode="numeric">
-            </div>
+                        <div class="field-group">
+                            <label for="deposit">Deposit ($)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">The deposit amount (typically 20% of
+                                        purchase
+                                        price)</span></span>
+                            </label>
+                            <input type="text" id="deposit" value="240,000" inputmode="numeric">
+                        </div>
 
-            <div class="field-group">
-                <label for="interestRate">Interest Rate (%)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Annual interest rate on your loan</span></span>
-                </label>
-                <input type="number" id="interestRate" value="6" step="0.1">
-            </div>
+                        <div class="field-group">
+                            <label for="interestRate">Interest Rate (%)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Annual interest rate on your
+                                        loan</span></span>
+                            </label>
+                            <input type="number" id="interestRate" value="6" step="0.1">
+                        </div>
 
-            <div class="field-group">
-                <label for="loanType">Loan Type
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Interest Only or Principal & Interest
-                            loan</span></span>
-                </label>
-                <select id="loanType">
-                    <option value="PI">Principal & Interest</option>
-                    <option value="IO">Interest Only</option>
-                </select>
-            </div>
+                        <div class="field-group">
+                            <label for="loanType">Loan Type
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Interest Only or Principal & Interest
+                                        loan</span></span>
+                            </label>
+                            <select id="loanType">
+                                <option value="PI">Principal & Interest</option>
+                                <option value="IO">Interest Only</option>
+                            </select>
+                        </div>
 
-            <div class="field-group">
-                <label for="holdingPeriod">Holding Period (years)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">How many years you plan to own the
-                            property</span></span>
-                </label>
-                <input type="number" id="holdingPeriod" value="7" min="1" max="30">
-            </div>
+                        <div class="field-group">
+                            <label for="holdingPeriod">Holding Period (years)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">How many years you plan to own the
+                                        property</span></span>
+                            </label>
+                            <input type="number" id="holdingPeriod" value="7" min="1" max="30">
+                        </div>
 
-            <div class="field-group">
-                <label for="annualGrowth">Estimated Annual Growth (%)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Expected annual property value growth
-                            rate</span></span>
-                </label>
-                <input type="number" id="annualGrowth" value="5" step="0.1">
-            </div>
+                        <div class="field-group">
+                            <label for="annualGrowth">Estimated Annual Growth (%)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Expected annual property value growth
+                                        rate</span></span>
+                            </label>
+                            <input type="number" id="annualGrowth" value="5" step="0.1">
+                        </div>
 
-            <div class="field-group">
-                <label for="rentalYield">Rental Yield (% of purchase price)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Annual rental income as percentage of purchase
-                            price</span></span>
-                </label>
-                <input type="number" id="rentalYield" value="3.5" step="0.1">
-            </div>
+                        <div class="field-group">
+                            <label for="rentalYield">Rental Yield (% of purchase price)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Annual rental income as percentage of
+                                        purchase
+                                        price</span></span>
+                            </label>
+                            <input type="number" id="rentalYield" value="3.5" step="0.1">
+                        </div>
 
-            <div class="field-group">
-                <label for="annualRental">Weekly Rental Income ($)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Weekly rental income - will auto-calculate annual
-                            rental yield</span></span>
-                </label>
-                <input type="text" id="annualRental" value="800" inputmode="numeric">
-            </div>
+                        <div class="field-group">
+                            <label for="annualRental">Weekly Rental Income ($)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Weekly rental income - will
+                                        auto-calculate annual
+                                        rental yield</span></span>
+                            </label>
+                            <input type="text" id="annualRental" value="800" inputmode="numeric">
+                        </div>
 
-            <div class="field-group">
-                <label for="capitalImprovements">Capital Improvements ($)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Total cost of capital improvements (e.g.,
-                            renovations, extensions) - reduces capital gains tax</span></span>
-                </label>
-                <input type="text" id="capitalImprovements" value="0" inputmode="numeric">
-            </div>
+                        <div class="field-group">
+                            <label for="capitalImprovements">Capital Improvements ($)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Total cost of capital improvements
+                                        (e.g.,
+                                        renovations, extensions) - reduces capital gains tax</span></span>
+                            </label>
+                            <input type="text" id="capitalImprovements" value="0" inputmode="numeric">
+                        </div>
 
-            <h3>Operating Costs (Annual)</h3>
+                        <h3>Operating Costs (Annual)</h3>
 
-            <div class="field-group">
-                <label for="pmFees">Property Management Fees (% of rent)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Percentage charged by property
-                            managers</span></span>
-                </label>
-                <input type="number" id="pmFees" value="7" step="0.1">
-            </div>
+                        <div class="field-group">
+                            <label for="pmFees">Property Management Fees (% of rent)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Percentage charged by property
+                                        managers</span></span>
+                            </label>
+                            <input type="number" id="pmFees" value="7" step="0.1">
+                        </div>
 
-            <div class="field-group">
-                <label for="councilRates">Council Rates ($)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Annual council/municipal charges</span></span>
-                </label>
-                <input type="number" id="councilRates" value="2500">
-            </div>
+                        <div class="field-group">
+                            <label for="councilRates">Council Rates ($)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Annual council/municipal
+                                        charges</span></span>
+                            </label>
+                            <input type="number" id="councilRates" value="2500">
+                        </div>
 
-            <div class="field-group">
-                <label for="landTax">Land Tax ($)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Annual land tax based on property
-                            value</span></span>
-                </label>
-                <input type="number" id="landTax" value="1000">
-            </div>
+                        <div class="field-group">
+                            <label for="landTax">Land Tax ($)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Annual land tax based on property
+                                        value</span></span>
+                            </label>
+                            <input type="number" id="landTax" value="1000">
+                        </div>
 
-            <div class="field-group">
-                <label for="insurance">Insurance ($)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Annual building/landlord insurance</span></span>
-                </label>
-                <input type="number" id="insurance" value="2000">
-            </div>
+                        <div class="field-group">
+                            <label for="insurance">Insurance ($)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Annual building/landlord
+                                        insurance</span></span>
+                            </label>
+                            <input type="number" id="insurance" value="2000">
+                        </div>
 
-            <div class="field-group">
-                <label for="maintenance">Maintenance ($)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Estimated annual maintenance costs</span></span>
-                </label>
-                <input type="number" id="maintenance" value="3000">
-            </div>
+                        <div class="field-group">
+                            <label for="maintenance">Maintenance ($)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Estimated annual maintenance
+                                        costs</span></span>
+                            </label>
+                            <input type="number" id="maintenance" value="3000">
+                        </div>
 
-            <div class="field-group">
-                <label for="waterRates">Water Rates ($)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Annual water service charges</span></span>
-                </label>
-                <input type="number" id="waterRates" value="1000">
-            </div>
+                        <div class="field-group">
+                            <label for="waterRates">Water Rates ($)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Annual water service
+                                        charges</span></span>
+                            </label>
+                            <input type="number" id="waterRates" value="1000">
+                        </div>
 
-            <h3>Transaction Costs</h3>
+                        <h3>Transaction Costs</h3>
 
-            <div class="field-group">
-                <label for="buyerLegalFees">Buyer Legal Fees ($)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Legal and conveyancing fees when
-                            buying</span></span>
-                </label>
-                <input type="number" id="buyerLegalFees" value="2000">
-            </div>
+                        <div class="field-group">
+                            <label for="buyerLegalFees">Buyer Legal Fees ($)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Legal and conveyancing fees when
+                                        buying</span></span>
+                            </label>
+                            <input type="number" id="buyerLegalFees" value="2000">
+                        </div>
 
-            <div class="field-group">
-                <label for="sellerAgentFees">Selling Agent Commission (%)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Real estate agent commission when
-                            selling</span></span>
-                </label>
-                <input type="number" id="sellerAgentFees" value="2.0" step="0.1">
-            </div>
+                        <div class="field-group">
+                            <label for="sellerAgentFees">Selling Agent Commission (%)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Real estate agent commission when
+                                        selling</span></span>
+                            </label>
+                            <input type="number" id="sellerAgentFees" value="2.0" step="0.1">
+                        </div>
 
-            <div class="field-group">
-                <label for="sellerLegalFees">Seller Legal Fees ($)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Legal and conveyancing fees when
-                            selling</span></span>
-                </label>
-                <input type="number" id="sellerLegalFees" value="1500">
-            </div>
+                        <div class="field-group">
+                            <label for="sellerLegalFees">Seller Legal Fees ($)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Legal and conveyancing fees when
+                                        selling</span></span>
+                            </label>
+                            <input type="number" id="sellerLegalFees" value="1500">
+                        </div>
 
-            <h3>Tax Settings</h3>
+                        <h3>Tax Settings</h3>
 
-            <div class="field-group">
-                <label for="marginalTaxRate">Marginal Tax Rate (%)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Your highest tax bracket percentage</span></span>
-                </label>
-                <input type="number" id="marginalTaxRate" value="40" max="100">
-            </div>
+                        <div class="field-group">
+                            <label for="marginalTaxRate">Marginal Tax Rate (%)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Your highest tax bracket
+                                        percentage</span></span>
+                            </label>
+                            <input type="number" id="marginalTaxRate" value="40" max="100">
+                        </div>
 
-            <div class="field-group">
-                <label for="offsetRate">Offset Account Rate (%)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Interest rate you'd earn on money in offset
-                            account</span></span>
-                </label>
-                <input type="number" id="offsetRate" value="6.5" step="0.1">
-            </div>
+                        <div class="field-group">
+                            <label for="offsetRate">Offset Account Rate (%)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Interest rate you'd earn on money in
+                                        offset
+                                        account</span></span>
+                            </label>
+                            <input type="number" id="offsetRate" value="6.5" step="0.1">
+                        </div>
 
-            <div class="field-group">
-                <label for="riskAdjustment">Risk Adjustment (%)
-                    <span class="tooltip">ⓘ<span class="tooltiptext">Subjective risk factor (negative value reduces
-                            score)</span></span>
-                </label>
-                <input type="number" id="riskAdjustment" value="-10">
-            </div>
-        </div>
+                        <div class="field-group">
+                            <label for="riskAdjustment">Risk Adjustment (%)
+                                <span class="tooltip">ⓘ<span class="tooltiptext">Subjective risk factor (negative value
+                                        reduces
+                                        score)</span></span>
+                            </label>
+                            <input type="number" id="riskAdjustment" value="-10">
+                        </div>
+                    </div>
 
-        <div class="results-section">
-            <h2>Property Analysis</h2>
-            <p>Results will update automatically as you change values.</p>
+                    <div class="results-section">
+                        <h2>Property Analysis</h2>
+                        <p>Results will update automatically as you change values.</p>
 
-            <div id="resultsContainer">
-                <!-- Results will appear here -->
-            </div>
-        </div>
-    </div>
+                        <div id="resultsContainer">
+                            <!-- Results will appear here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-    <div class="section-title">Loan Amortization Schedule</div>
-    <div class="projection-section">
-        <div style="overflow-x: auto;">
-            <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
-                <thead>
-                    <tr style="background-color: #f8f9fa;">
-                        <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Years remaining
-                        </th>
-                        <th style="padding: 12px; text-align: right; border-bottom: 2px solid #dee2e6;">Principal
-                            remaining</th>
-                        <th style="padding: 12px; text-align: right; border-bottom: 2px solid #dee2e6;">Annual Interest
-                        </th>
-                        <th style="padding: 12px; text-align: right; border-bottom: 2px solid #dee2e6;">Principal Paid
-                        </th>
-                    </tr>
-                </thead>
-                <tbody id="amortizationTableBody">
-                    <!-- Will be populated by JavaScript -->
-                </tbody>
-            </table>
-        </div>
-    </div>
+            <section id="loan-amortization">
+                <div class="section-title">Loan Amortization Schedule</div>
+                <div class="projection-section">
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                            <thead>
+                                <tr style="background-color: #f8f9fa;">
+                                    <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Years
+                                        remaining
+                                    </th>
+                                    <th style="padding: 12px; text-align: right; border-bottom: 2px solid #dee2e6;">
+                                        Principal
+                                        remaining</th>
+                                    <th style="padding: 12px; text-align: right; border-bottom: 2px solid #dee2e6;">
+                                        Annual Interest
+                                    </th>
+                                    <th style="padding: 12px; text-align: right; border-bottom: 2px solid #dee2e6;">
+                                        Principal Paid
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="amortizationTableBody">
+                                <!-- Will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </main>
 
     <script>
         // Add a function to parse currency strings with million notation
@@ -1923,29 +2029,6 @@
         document.getElementById('interestRate').addEventListener('input', updateAmortizationSchedule);
         document.getElementById('loanType').addEventListener('change', updateAmortizationSchedule);
     </script>
-
-    <div class="section-title">Loan Amortization Schedule</div>
-    <div class="projection-section">
-        <div style="overflow-x: auto;">
-            <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
-                <thead>
-                    <tr style="background-color: #f8f9fa;">
-                        <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Years remaining
-                        </th>
-                        <th style="padding: 12px; text-align: right; border-bottom: 2px solid #dee2e6;">Principal
-                            remaining</th>
-                        <th style="padding: 12px; text-align: right; border-bottom: 2px solid #dee2e6;">Annual Interest
-                        </th>
-                        <th style="padding: 12px; text-align: right; border-bottom: 2px solid #dee2e6;">Principal Paid
-                        </th>
-                    </tr>
-                </thead>
-                <tbody id="amortizationTableBody">
-                    <!-- Will be populated by JavaScript -->
-                </tbody>
-            </table>
-        </div>
-    </div>
 </body>
 
 </html>
