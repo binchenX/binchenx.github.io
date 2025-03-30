@@ -424,6 +424,89 @@
             height: 400px;
             margin-top: 20px;
         }
+
+        .nav-container {
+            position: sticky;
+            top: 0;
+            background: white;
+            padding: 10px;
+            margin: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            overflow-x: auto;
+            padding: 0 5px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            /* Firefox */
+            -ms-overflow-style: none;
+            /* IE and Edge */
+        }
+
+        .nav-links::-webkit-scrollbar {
+            display: none;
+            /* Chrome, Safari, Opera */
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #3498db;
+            padding: 5px 10px;
+            border-radius: 4px;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            white-space: nowrap;
+            min-width: fit-content;
+        }
+
+        .nav-link:hover {
+            background: #e8e9ea;
+        }
+
+        .scroll-indicator {
+            display: none;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #3498db;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 4px;
+            border-radius: 50%;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .scroll-left {
+            left: 0;
+        }
+
+        .scroll-right {
+            right: 0;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                position: sticky;
+                margin: 10px -10px;
+                border-radius: 0;
+            }
+
+            .nav-links {
+                padding: 0 15px;
+                mask-image: linear-gradient(to right, transparent, black 15px, black calc(100% - 15px), transparent);
+            }
+
+            .scroll-indicator {
+                display: block;
+            }
+        }
     </style>
 </head>
 
@@ -438,36 +521,54 @@
                     Issue</a>
             </header>
 
-            <nav
-                style="position: sticky; top: 0; background: white; padding: 10px; margin: 15px 0; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); z-index: 100;">
-                <div
-                    style="display: flex; gap: 8px; flex-wrap: nowrap; justify-content: center; overflow-x: auto; padding: 0 5px;">
-                    <a href="#income-tax-analysis"
-                        style="text-decoration: none; color: #3498db; padding: 5px 10px; border-radius: 4px; background: #f8f9fa; transition: all 0.3s ease; font-size: 14px; white-space: nowrap;">Income
-                        & Tax</a>
-                    <a href="#cash-flow-asset"
-                        style="text-decoration: none; color: #3498db; padding: 5px 10px; border-radius: 4px; background: #f8f9fa; transition: all 0.3s ease; font-size: 14px; white-space: nowrap;">Cash
-                        Flow</a>
-                    <a href="#asset-projection"
-                        style="text-decoration: none; color: #3498db; padding: 5px 10px; border-radius: 4px; background: #f8f9fa; transition: all 0.3s ease; font-size: 14px; white-space: nowrap;">Asset
-                        Projection</a>
-                    <a href="#investment-property-impact"
-                        style="text-decoration: none; color: #3498db; padding: 5px 10px; border-radius: 4px; background: #f8f9fa; transition: all 0.3s ease; font-size: 14px; white-space: nowrap;">IP
-                        Cash Impact</a>
-                    <a href="#tax-comparison"
-                        style="text-decoration: none; color: #3498db; padding: 5px 10px; border-radius: 4px; background: #f8f9fa; transition: all 0.3s ease; font-size: 14px; white-space: nowrap;">IP
-                        Tax Benefits</a>
-                    <a href="#property-investment-analysis"
-                        style="text-decoration: none; color: #3498db; padding: 5px 10px; border-radius: 4px; background: #f8f9fa; transition: all 0.3s ease; font-size: 14px; white-space: nowrap;">Investment
-                        Property(IP)</a>
-                    <a href="#loan-amortization"
-                        style="text-decoration: none; color: #3498db; padding: 5px 10px; border-radius: 4px; background: #f8f9fa; transition: all 0.3s ease; font-size: 14px; white-space: nowrap;">Loan
-                        Payment</a>
-                    <a href="#home-upgrade-analysis"
-                        style="text-decoration: none; color: #3498db; padding: 5px 10px; border-radius: 4px; background: #f8f9fa; transition: all 0.3s ease; font-size: 14px; white-space: nowrap;">Home
-                        Upgrade</a>
+            <nav class="nav-container">
+                <div class="scroll-indicator scroll-left">←</div>
+                <div class="nav-links">
+                    <a href="#income-tax-analysis" class="nav-link">Income & Tax</a>
+                    <a href="#cash-flow-asset" class="nav-link">Cash Flow</a>
+                    <a href="#asset-projection" class="nav-link">Projection</a>
+                    <a href="#investment-property-impact" class="nav-link">Impact</a>
+                    <a href="#tax-comparison" class="nav-link">Tax Benefits</a>
+                    <a href="#property-investment-analysis" class="nav-link">Analysis</a>
+                    <a href="#loan-amortization" class="nav-link">Loan</a>
+                    <a href="#home-upgrade-analysis" class="nav-link">Upgrade</a>
                 </div>
+                <div class="scroll-indicator scroll-right">→</div>
             </nav>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const navLinks = document.querySelector('.nav-links');
+                    const scrollLeft = document.querySelector('.scroll-left');
+                    const scrollRight = document.querySelector('.scroll-right');
+
+                    function updateScrollButtons() {
+                        if (navLinks.scrollLeft <= 0) {
+                            scrollLeft.style.opacity = '0.3';
+                        } else {
+                            scrollLeft.style.opacity = '1';
+                        }
+
+                        if (navLinks.scrollLeft >= navLinks.scrollWidth - navLinks.clientWidth - 1) {
+                            scrollRight.style.opacity = '0.3';
+                        } else {
+                            scrollRight.style.opacity = '1';
+                        }
+                    }
+
+                    scrollLeft.addEventListener('click', () => {
+                        navLinks.scrollBy({ left: -100, behavior: 'smooth' });
+                    });
+
+                    scrollRight.addEventListener('click', () => {
+                        navLinks.scrollBy({ left: 100, behavior: 'smooth' });
+                    });
+
+                    navLinks.addEventListener('scroll', updateScrollButtons);
+                    window.addEventListener('resize', updateScrollButtons);
+                    updateScrollButtons();
+                });
+            </script>
 
             <details
                 style="margin: 20px 0; padding: 20px; background-color: #f8f9f9; border-radius: 8px; border: 1px solid #e1e4e8;">
