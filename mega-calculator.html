@@ -273,6 +273,26 @@
             }
         }
 
+        .positive {
+            color: #27ae60;
+            /* Green for positive values like returns and income */
+        }
+
+        .negative {
+            color: #e74c3c;
+            /* Red for negative values like costs and expenses */
+        }
+
+        .neutral {
+            color: #f39c12;
+            /* Orange for neutral or informational values */
+        }
+
+        .separator {
+            margin: 20px 0;
+            border-top: 1px solid #ddd;
+        }
+
         .tooltip {
             position: relative;
             display: inline-block;
@@ -1527,10 +1547,10 @@
 
             // Update tax results
             let taxHTML = '';
-            taxHTML += createResultItem('Annual After-Tax Income', formatCurrency(totalAfterTaxIncome));
-            taxHTML += createResultItem('Fortnightly After-Tax Income', formatCurrency(totalAfterTaxIncome / 26));
-            taxHTML += createResultItem('Tax Payable', formatCurrency(totalTaxPayable));
-            taxHTML += createResultItem('Effective Tax Rate', effectiveTaxRate.toFixed(1) + '%');
+            taxHTML += createResultItem('Annual After-Tax Income', formatCurrency(totalAfterTaxIncome), 'positive');
+            taxHTML += createResultItem('Fortnightly After-Tax Income', formatCurrency(totalAfterTaxIncome / 26), 'positive');
+            taxHTML += createResultItem('Tax Payable', formatCurrency(totalTaxPayable), 'negative');
+            taxHTML += createResultItem('Effective Tax Rate', effectiveTaxRate.toFixed(1) + '%', 'negative');
 
             document.getElementById('taxContainer').innerHTML = taxHTML;
 
@@ -1549,12 +1569,12 @@
 
             // Update cash flow results
             let cashFlowHTML = '';
-            cashFlowHTML += createResultItem('Monthly After-Tax Income', formatCurrency(monthlyAfterTaxIncome));
-            cashFlowHTML += createResultItem('Total Monthly Expenses', formatCurrency(totalMonthlyExpenses));
+            cashFlowHTML += createResultItem('Monthly After-Tax Income', formatCurrency(monthlyAfterTaxIncome), 'positive');
+            cashFlowHTML += createResultItem('Total Monthly Expenses', formatCurrency(totalMonthlyExpenses), 'negative');
             cashFlowHTML += createResultItem('Monthly Disposable Income', formatCurrency(monthlyDisposableIncome),
                 monthlyDisposableIncome > 0 ? 'positive' : 'negative');
             cashFlowHTML += '<div class="separator"></div>';
-            cashFlowHTML += createResultItem('Total Current Assets', formatCurrency(totalAssets));
+            cashFlowHTML += createResultItem('Total Current Assets', formatCurrency(totalAssets), 'positive');
             cashFlowHTML += createResultItem('Projected Annual Savings', formatCurrency(annualSavings),
                 annualSavings > 0 ? 'positive' : 'negative');
 
@@ -1768,7 +1788,7 @@
             taxComparisonHTML += `
                 <div style="flex: 1; text-align: center;">
                     <div style="font-weight: bold;">Annual Tax Savings</div>
-                    <div class="result-value positive">${formatCurrency(taxSavings)}</div>
+                    <div class="result-value negative">${formatCurrency(taxSavings)}</div>
                 </div>
                 <div style="flex: 1; text-align: center;">
                     <div style="font-weight: bold;">Effective Annual Cash Flow</div>
@@ -1843,7 +1863,7 @@
             const saleProceeds = netProceedsBeforeTax - cgt;
 
             // Add key metrics
-            resultsHTML += createResultItem('Estimated Sale Price', formatCurrency(salePrice));
+            resultsHTML += createResultItem('Estimated Sale Price', formatCurrency(salePrice), 'positive');
             resultsHTML += createResultItem('Net Profit After Sale', formatCurrency(netProfit), netProfit > 0 ? 'positive' : 'negative');
             resultsHTML += createResultItem('Sale Proceeds (Year ' + holdingPeriod + ')', formatCurrency(saleProceeds), saleProceeds > 0 ? 'positive' : 'negative', 'Net proceeds after selling costs, loan repayment, and capital gains tax');
 
@@ -1857,7 +1877,7 @@
                 annualizedROI > offsetRate * 100 ? 'positive' : 'neutral',
                 'Includes capital growth and rental income, before tax benefits');
 
-            resultsHTML += createResultItem('Total Tax Benefits', formatCurrency(totalTaxBenefits), 'positive',
+            resultsHTML += createResultItem('Total Tax Benefits', formatCurrency(totalTaxBenefits), 'negative',
                 document.getElementById('loanType').value === 'PI' ?
                     'Warning: For P&I loans, this is an overestimate as it assumes the entire loan payment is tax deductible. In reality, only the interest portion (which decreases over time) is deductible.' :
                     'Total tax savings from negative gearing and depreciation over the holding period');
