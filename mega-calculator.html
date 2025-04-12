@@ -1240,11 +1240,20 @@
                                 <input type="text" id="currentCredit" value="0" inputmode="numeric">
                             </div>
                             <div class="field-group">
-                                <label for="currentAreaGrowth">Current Area Growth Rate (%)
-                                    <span class="tooltip">ⓘ<span class="tooltiptext">Expected annual property growth
-                                            rate in your current area</span></span>
+                                <label for="currentInterestRate">Current Interest Rate (%)
+                                    <span class="tooltip">ⓘ<span class="tooltiptext">Annual interest rate for your
+                                            current
+                                            home loan</span></span>
                                 </label>
-                                <input type="number" id="currentAreaGrowth" value="3" step="0.1">
+                                <input type="number" id="currentInterestRate" value="5.5" step="0.1">
+                            </div>
+                            <div class="field-group">
+                                <label for="currentGrowthRate">Current Home Growth Rate (%)
+                                    <span class="tooltip">ⓘ<span class="tooltiptext">Expected annual property growth
+                                            rate for your current home (default: 3.0%)</span></span>
+                                </label>
+                                <input type="number" id="currentGrowthRate" value="3.0" step="0.1"
+                                    placeholder="Default: 3.0%">
                             </div>
                             <div
                                 style="margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 8px;">
@@ -1305,11 +1314,11 @@
                                 <input type="number" id="upgradeInterestRate" value="6" step="0.1">
                             </div>
                             <div class="field-group">
-                                <label for="upgradeAreaGrowth">Upgrade Area Growth Rate (%)
+                                <label for="upgradeGrowthRate">Upgrade Home Growth Rate (%)
                                     <span class="tooltip">ⓘ<span class="tooltiptext">Expected annual property growth
-                                            rate in the new area</span></span>
+                                            rate for the new home</span></span>
                                 </label>
-                                <input type="number" id="upgradeAreaGrowth" value="4" step="0.1">
+                                <input type="number" id="upgradeGrowthRate" value="4.0" step="0.1">
                             </div>
                             <div class="field-group">
                                 <label for="upgradeLoanType">New Loan Type
@@ -1373,6 +1382,74 @@
                                 <h4>Transaction Costs</h4>
                                 <div id="totalTransactionCosts" class="result-value">$0</div>
                             </div>
+                        </div>
+
+                        <!-- 10-Year Asset Projection Section -->
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin: 30px 0 20px 0;">
+                            <h3 style="color: #2c3e50; margin: 0;">
+                                <span id="projectionPeriodHeading">10-Year</span> Asset Projection
+                            </h3>
+                            <div class="field-group" style="max-width: 200px; margin: 0;">
+                                <label for="upgradeProjectionYears">Projection Years
+                                    <span class="tooltip">ⓘ<span class="tooltiptext">Number of years to project your
+                                            asset growth</span></span>
+                                </label>
+                                <input type="number" id="upgradeProjectionYears" value="10" min="1" max="50"
+                                    onchange="updateProjectionPeriod()">
+                            </div>
+                        </div>
+                        <div
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; background-color: #f8f9fa; padding: 20px; border-radius: 8px;">
+                            <div>
+                                <h4 style="color: #2c3e50; border-bottom: 2px solid #2ecc71; padding-bottom: 8px;">
+                                    Current Home Scenario</h4>
+                                <div class="field-group">
+                                    <label>Property Value After <span class="projectionYearsLabel">10</span>
+                                        Years</label>
+                                    <div id="currentHomeValue10yr" class="result-value positive">$0</div>
+                                </div>
+                                <div class="field-group">
+                                    <label>Remaining Mortgage After <span class="projectionYearsLabel">10</span>
+                                        Years</label>
+                                    <div id="currentHomeMortgage10yr" class="result-value negative">$0</div>
+                                </div>
+                                <div class="field-group">
+                                    <label>Home Equity After <span class="projectionYearsLabel">10</span> Years</label>
+                                    <div id="currentHomeEquity10yr" class="result-value positive">$0</div>
+                                </div>
+                                <div class="field-group">
+                                    <label>Total Net Worth After <span class="projectionYearsLabel">10</span>
+                                        Years</label>
+                                    <div id="currentHomeNetWorth10yr" class="result-value positive">$0</div>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 8px;">
+                                    Upgrade Home Scenario</h4>
+                                <div class="field-group">
+                                    <label>Property Value After <span class="projectionYearsLabel">10</span>
+                                        Years</label>
+                                    <div id="upgradeHomeValue10yr" class="result-value positive">$0</div>
+                                </div>
+                                <div class="field-group">
+                                    <label>Remaining Mortgage After <span class="projectionYearsLabel">10</span>
+                                        Years</label>
+                                    <div id="upgradeHomeMortgage10yr" class="result-value negative">$0</div>
+                                </div>
+                                <div class="field-group">
+                                    <label>Home Equity After <span class="projectionYearsLabel">10</span> Years</label>
+                                    <div id="upgradeHomeEquity10yr" class="result-value positive">$0</div>
+                                </div>
+                                <div class="field-group">
+                                    <label>Total Net Worth After <span class="projectionYearsLabel">10</span>
+                                        Years</label>
+                                    <div id="upgradeHomeNetWorth10yr" class="result-value positive">$0</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 15px; text-align: center; font-style: italic; color: #7f8c8d;">
+                            Note: Asset projections assume consistent savings rate and property growth rates.
                         </div>
                     </div>
                 </div>
@@ -1529,6 +1606,17 @@
             const buildingValue = purchasePrice * (1 - parseFloat(document.getElementById('landValuePercent').value) / 100);
             const buildingDepreciationRate = parseFloat(document.getElementById('buildingDepreciationRate').value) / 100;
             return buildingValue * buildingDepreciationRate;
+        }
+
+
+        function totalAfterTaxIncome() {
+            const salary1 = parseCurrencyString(document.getElementById('salary').value);
+            const salary2 = parseCurrencyString(document.getElementById('salary2').value);
+            const otherIncome = parseCurrencyString(document.getElementById('otherIncome').value);
+            const taxPayable1 = calculateTax(salary1);
+            const taxPayable2 = calculateTax(salary2);
+            const taxPayableOther = calculateTax(otherIncome);
+            return (salary1 - taxPayable1) + (salary2 - taxPayable2) + (otherIncome - taxPayableOther);
         }
 
         function calculateResults() {
@@ -2221,7 +2309,8 @@
                     currentHomeValue: document.getElementById('currentHomeValue').value,
                     currentHomeLoan: document.getElementById('currentHomeLoan').value,
                     currentCredit: document.getElementById('currentCredit').value,
-                    currentAreaGrowth: document.getElementById('currentAreaGrowth').value
+                    currentInterestRate: document.getElementById('currentInterestRate').value,
+                    currentGrowthRate: document.getElementById('currentGrowthRate').value
                 };
                 const encryptedData = encryptData(currentHomeData);
                 if (encryptedData) {
@@ -2234,7 +2323,7 @@
                     upgradeMortgagePercent: document.getElementById('upgradeMortgagePercent').value,
                     upgradeMortgageAmount: document.getElementById('upgradeMortgageAmount').value,
                     upgradeInterestRate: document.getElementById('upgradeInterestRate').value,
-                    upgradeAreaGrowth: document.getElementById('upgradeAreaGrowth').value,
+                    upgradeGrowthRate: document.getElementById('upgradeGrowthRate').value,
                     upgradeLoanType: document.getElementById('upgradeLoanType').value
                 };
                 const encryptedData = encryptData(upgradeHomeData);
@@ -2285,7 +2374,8 @@
                     document.getElementById('currentHomeValue').value = currentHomeData.currentHomeValue;
                     document.getElementById('currentHomeLoan').value = currentHomeData.currentHomeLoan;
                     document.getElementById('currentCredit').value = currentHomeData.currentCredit;
-                    document.getElementById('currentAreaGrowth').value = currentHomeData.currentAreaGrowth;
+                    document.getElementById('currentInterestRate').value = currentHomeData.currentInterestRate;
+                    document.getElementById('currentGrowthRate').value = currentHomeData.currentGrowthRate;
                 }
             }
 
@@ -2298,7 +2388,7 @@
                     document.getElementById('upgradeMortgagePercent').value = upgradeHomeData.upgradeMortgagePercent;
                     document.getElementById('upgradeMortgageAmount').value = upgradeHomeData.upgradeMortgageAmount;
                     document.getElementById('upgradeInterestRate').value = upgradeHomeData.upgradeInterestRate;
-                    document.getElementById('upgradeAreaGrowth').value = upgradeHomeData.upgradeAreaGrowth;
+                    document.getElementById('upgradeGrowthRate').value = upgradeHomeData.upgradeGrowthRate;
                     document.getElementById('upgradeLoanType').value = upgradeHomeData.upgradeLoanType;
                 }
             }
@@ -2664,92 +2754,206 @@
         document.getElementById('interestRate').addEventListener('input', updateAmortizationSchedule);
         document.getElementById('loanType').addEventListener('change', updateAmortizationSchedule);
 
-        // Add function to calculate home upgrade analysis
-        function calculateUpgradeAnalysis() {
-            // Get current home details
-            const currentHomeValue = parseCurrencyString(document.getElementById('currentHomeValue').value);
-            const currentHomeLoan = parseCurrencyString(document.getElementById('currentHomeLoan').value);
-            const currentCredit = parseCurrencyString(document.getElementById('currentCredit').value);
-            const currentAreaGrowth = parseFloat(document.getElementById('currentAreaGrowth').value) / 100;
-
-            // Get upgrade home details
-            const upgradeHomeValue = parseCurrencyString(document.getElementById('upgradeHomeValue').value);
-            const upgradeMortgagePercent = parseFloat(document.getElementById('upgradeMortgagePercent').value) / 100;
-            const upgradeLoanType = document.getElementById('upgradeLoanType').value;
-            const upgradeInterestRate = parseFloat(document.getElementById('upgradeInterestRate').value) / 100;
-            const upgradeAreaGrowth = parseFloat(document.getElementById('upgradeAreaGrowth').value) / 100;
-
-            // Get transaction costs
-            const sellingCostsPercent = parseFloat(document.getElementById('sellingCosts').value) / 100;
-            const buyingCostsPercent = parseFloat(document.getElementById('buyingCosts').value) / 100;
-            const movingCosts = parseCurrencyString(document.getElementById('movingCosts').value);
-
-            // Calculate selling costs
-            const sellingCosts = currentHomeValue * sellingCostsPercent;
-            const buyingCosts = upgradeHomeValue * buyingCostsPercent;
-            const totalTransactionCosts = sellingCosts + buyingCosts + movingCosts;
-
-            // Calculate total cash after sell
-            const totalCashAfterSell = currentHomeValue - currentHomeLoan - totalTransactionCosts + currentCredit;
-
-            // Calculate minimal mortgage needed
-            const minimalMortgage = Math.max(0, upgradeHomeValue - totalCashAfterSell);
-            document.getElementById('totalCashAfterSell').textContent = formatCurrency(totalCashAfterSell);
-            document.getElementById('minimalMortgage').textContent = formatCurrency(minimalMortgage);
-            document.getElementById('totalCashAfterSell').className = 'result-value ' + (totalCashAfterSell > 0 ? 'positive' : 'negative');
-            document.getElementById('minimalMortgage').className = 'result-value neutral';
-
-            // Calculate monthly payments - assume same interest rate for both loans
-            const monthlyRate = upgradeInterestRate / 12;
-
-            // Calculate current monthly payment using current home loan interest rate
-            const currentMonthlyPayment = currentHomeLoan * monthlyRate * Math.pow(1 + monthlyRate, 360) / (Math.pow(1 + monthlyRate, 360) - 1);
-
-            // Calculate new monthly payment
-            let newMonthlyPayment;
-            // Calculate and update mortgage amount based on percentage and home value
-            const upgradeMortgageAmount = upgradeHomeValue * upgradeMortgagePercent;
-            document.getElementById('upgradeMortgageAmount').value = formatNumberWithCommas(upgradeMortgageAmount);
-
-            if (upgradeLoanType === 'IO') {
-                newMonthlyPayment = upgradeMortgageAmount * monthlyRate;
-            } else {
-                newMonthlyPayment = upgradeMortgageAmount * monthlyRate * Math.pow(1 + monthlyRate, 360) / (Math.pow(1 + monthlyRate, 360) - 1);
-            }
-            // Calculate monthly payment change
-            const monthlyPaymentChange = newMonthlyPayment - currentMonthlyPayment;
-
-            // Update results
-            document.getElementById('currentMonthlyPayment').textContent = formatCurrency(currentMonthlyPayment);
-            document.getElementById('newMonthlyPayment').textContent = formatCurrency(newMonthlyPayment);
-            document.getElementById('monthlyPaymentChange').textContent = formatCurrency(monthlyPaymentChange);
-            document.getElementById('totalTransactionCosts').textContent = formatCurrency(totalTransactionCosts);
-
-            // Add appropriate CSS classes based on values
-            document.getElementById('monthlyPaymentChange').className = 'result-value ' + (monthlyPaymentChange > 0 ? 'negative' : 'positive');
-            document.getElementById('totalTransactionCosts').className = 'result-value negative';
-        }
-
         // Add event listeners for home upgrade analysis
         const upgradeInputs = [
-            'currentHomeValue', 'currentHomeLoan', 'currentCredit', 'currentAreaGrowth',
-            'upgradeHomeValue', 'upgradeAreaGrowth', 'upgradeLoanType',
+            'currentHomeValue', 'currentHomeLoan', 'currentCredit', 'currentInterestRate', 'currentGrowthRate',
+            'upgradeHomeValue', 'upgradeGrowthRate', 'upgradeLoanType',
             'sellingCosts', 'buyingCosts', 'movingCosts', 'upgradeMortgagePercent',
             'upgradeMortgageAmount', 'upgradeInterestRate'
         ];
 
         upgradeInputs.forEach(inputId => {
             const element = document.getElementById(inputId);
-            if (element.type === 'text') {
-                element.addEventListener('input', function () {
-                    handleCurrencyInput.call(this);
-                    calculateUpgradeAnalysis();
-                });
+            if (element) {
+                if (element.type === 'text') {
+                    element.addEventListener('input', function () {
+                        handleCurrencyInput.call(this);
+                        calculateUpgradeAnalysis();
+                    });
+                } else {
+                    element.addEventListener('input', calculateUpgradeAnalysis);
+                }
+                element.addEventListener('change', calculateUpgradeAnalysis);
             } else {
-                element.addEventListener('input', calculateUpgradeAnalysis);
+                console.warn(`Element with ID '${inputId}' not found. Skipping event listener.`);
             }
-            element.addEventListener('change', calculateUpgradeAnalysis);
         });
+
+        // Function to safely get the value of an input element
+        function safeGetElementValue(id, defaultValue = '0') {
+            const element = document.getElementById(id);
+            return element ? element.value : defaultValue;
+        }
+
+        // Add function to calculate home upgrade analysis
+        function calculateUpgradeAnalysis() {
+            try {
+                // Get current home details
+                const currentHomeValue = parseCurrencyString(safeGetElementValue('currentHomeValue'));
+                const currentHomeLoan = parseCurrencyString(safeGetElementValue('currentHomeLoan'));
+                const currentCredit = parseCurrencyString(safeGetElementValue('currentCredit'));
+                const currentInterestRate = parseFloat(safeGetElementValue('currentInterestRate', '5.5')) / 100;
+                const currentGrowthRate = parseFloat(safeGetElementValue('currentGrowthRate', '3.0')) / 100;
+
+                // Get upgrade home details
+                const upgradeHomeValue = parseCurrencyString(safeGetElementValue('upgradeHomeValue'));
+                const upgradeMortgagePercent = parseFloat(safeGetElementValue('upgradeMortgagePercent', '80')) / 100;
+                const upgradeLoanTypeElement = document.getElementById('upgradeLoanType');
+                const upgradeLoanType = upgradeLoanTypeElement ? upgradeLoanTypeElement.value : 'PI';
+                const upgradeInterestRate = parseFloat(safeGetElementValue('upgradeInterestRate', '6.0')) / 100;
+                const upgradeGrowthRate = parseFloat(safeGetElementValue('upgradeGrowthRate', '4.0')) / 100;
+
+                // Get transaction costs
+                const sellingCostsPercent = parseFloat(safeGetElementValue('sellingCosts', '2.0')) / 100;
+                const buyingCostsPercent = parseFloat(safeGetElementValue('buyingCosts', '5.0')) / 100;
+                const movingCosts = parseCurrencyString(safeGetElementValue('movingCosts'));
+
+                // Calculate selling costs
+                const sellingCosts = currentHomeValue * sellingCostsPercent;
+                const buyingCosts = upgradeHomeValue * buyingCostsPercent;
+                const totalTransactionCosts = sellingCosts + buyingCosts + movingCosts;
+
+                // Calculate total cash after sell
+                const totalCashAfterSell = currentHomeValue - currentHomeLoan - totalTransactionCosts + currentCredit;
+
+                // Calculate minimal mortgage needed
+                const minimalMortgage = Math.max(0, upgradeHomeValue - totalCashAfterSell);
+
+                // Update total cash and minimal mortgage elements if they exist
+                const totalCashElement = document.getElementById('totalCashAfterSell');
+                const minimalMortgageElement = document.getElementById('minimalMortgage');
+
+                if (totalCashElement) {
+                    totalCashElement.textContent = formatCurrency(totalCashAfterSell);
+                    totalCashElement.className = 'result-value ' + (totalCashAfterSell > 0 ? 'positive' : 'negative');
+                }
+
+                if (minimalMortgageElement) {
+                    minimalMortgageElement.textContent = formatCurrency(minimalMortgage);
+                    minimalMortgageElement.className = 'result-value neutral';
+                }
+
+                // Calculate monthly payments
+                const upgradeMonthlyRate = upgradeInterestRate / 12;
+                const currentMonthlyRate = currentInterestRate / 12;
+
+                // Calculate current monthly payment using current home loan interest rate
+                const currentMonthlyPayment = currentHomeLoan * currentMonthlyRate * Math.pow(1 + currentMonthlyRate, 360) / (Math.pow(1 + currentMonthlyRate, 360) - 1);
+
+
+                // Calculate and update mortgage amount based on percentage and home value
+                const upgradeMortgageAmount = upgradeHomeValue * upgradeMortgagePercent;
+
+                // Update the mortgage amount input element if it exists
+                const upgradeMortgageAmountElement = document.getElementById('upgradeMortgageAmount');
+                if (upgradeMortgageAmountElement) {
+                    upgradeMortgageAmountElement.value = formatNumberWithCommas(upgradeMortgageAmount);
+                }
+
+                // Calculate new monthly payment
+                let newMonthlyPayment;
+                if (upgradeLoanType === 'IO') {
+                    newMonthlyPayment = upgradeMortgageAmount * upgradeMonthlyRate;
+                } else {
+                    newMonthlyPayment = upgradeMortgageAmount * upgradeMonthlyRate * Math.pow(1 + upgradeMonthlyRate, 360) / (Math.pow(1 + upgradeMonthlyRate, 360) - 1);
+                }
+
+                // Calculate monthly payment change
+                const monthlyPaymentChange = newMonthlyPayment - currentMonthlyPayment;
+
+                // Update result elements if they exist
+                updateElement('currentMonthlyPayment', formatCurrency(currentMonthlyPayment));
+                updateElement('newMonthlyPayment', formatCurrency(newMonthlyPayment));
+                updateElement('monthlyPaymentChange', formatCurrency(monthlyPaymentChange), monthlyPaymentChange > 0 ? 'negative' : 'positive');
+                updateElement('totalTransactionCosts', formatCurrency(totalTransactionCosts), 'negative');
+
+                // Calculate 10-year projections
+                // Current home scenario
+                const projectionYears = parseInt(document.getElementById('upgradeProjectionYears').value);
+                const currentHomeValueAfterProjection = currentHomeValue * Math.pow(1 + currentGrowthRate, projectionYears);
+                const currentHomeMortgageAfterProjection = calculateRemainingMortgage(currentHomeLoan, currentInterestRate, projectionYears, 'PI');
+                const currentHomeEquityAfterProjection = currentHomeValueAfterProjection - currentHomeMortgageAfterProjection;
+
+                // Calculate savings over projection period
+                const monthlyAfterTaxIncome = totalAfterTaxIncome() / 12;
+                const monthlyLivingExpenses = parseCurrencyString(document.getElementById('monthlyExpenses').value);
+                const currentSaving = currentCredit
+                const montlySavingCurrentHome = monthlyAfterTaxIncome - currentMonthlyPayment - monthlyLivingExpenses;
+                const currentHomeNetWorthAfterProjection = currentHomeEquityAfterProjection + currentSaving + montlySavingCurrentHome * 12 * projectionYears;
+
+                // Upgrade home scenario
+                const upgradeHomeValueAfterProjection = upgradeHomeValue * Math.pow(1 + upgradeGrowthRate, projectionYears);
+                const upgradeHomeMortgageAfterProjection = calculateRemainingMortgage(upgradeMortgageAmount, upgradeInterestRate, projectionYears, upgradeLoanType);
+                const upgradeHomeEquityAfterProjection = upgradeHomeValueAfterProjection - upgradeHomeMortgageAfterProjection;
+
+                // Calculate savings over projection period
+                const startSavingWithUpgradeHome = totalCashAfterSell - (upgradeHomeValue - upgradeMortgageAmount);
+                const monthlySavingsInUpgradeHome = monthlyAfterTaxIncome - newMonthlyPayment - monthlyLivingExpenses;
+                const upgradeHomeNetWorthAfterProjection = upgradeHomeEquityAfterProjection + startSavingWithUpgradeHome + monthlySavingsInUpgradeHome * 12 * projectionYears;
+
+                // Update the projection results
+                updateElement('currentHomeValue10yr', formatCurrency(currentHomeValueAfterProjection), 'positive');
+                updateElement('currentHomeMortgage10yr', formatCurrency(currentHomeMortgageAfterProjection), 'negative');
+                updateElement('currentHomeEquity10yr', formatCurrency(currentHomeEquityAfterProjection), 'positive');
+                updateElement('currentHomeNetWorth10yr', formatCurrency(currentHomeNetWorthAfterProjection), 'positive');
+
+                updateElement('upgradeHomeValue10yr', formatCurrency(upgradeHomeValueAfterProjection), 'positive');
+                updateElement('upgradeHomeMortgage10yr', formatCurrency(upgradeHomeMortgageAfterProjection), 'negative');
+                updateElement('upgradeHomeEquity10yr', formatCurrency(upgradeHomeEquityAfterProjection), 'positive');
+                updateElement('upgradeHomeNetWorth10yr', formatCurrency(upgradeHomeNetWorthAfterProjection), 'positive');
+
+                // Log the calculations for debugging
+                console.log(`${projectionYears}-Year Projection Values:`, {
+                    currentHomeValueAfterProjection,
+                    currentHomeMortgageAfterProjection,
+                    currentHomeEquityAfterProjection,
+                    currentHomeNetWorthAfterProjection,
+                    upgradeHomeValueAfterProjection,
+                    upgradeHomeMortgageAfterProjection,
+                    upgradeHomeEquityAfterProjection,
+                    upgradeHomeNetWorthAfterProjection
+                });
+
+            } catch (error) {
+                console.error('Error in calculateUpgradeAnalysis:', error);
+            }
+        }
+
+        // Helper function to safely update an element's text content
+        function updateElement(id, value, className = null) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.textContent = value;
+                if (className) {
+                    element.className = 'result-value ' + className;
+                }
+            }
+        }
+
+        // Helper function to calculate remaining mortgage after X years
+        function calculateRemainingMortgage(initialLoanAmount, interestRate, years, loanType) {
+            if (loanType === 'IO') {
+                // Interest Only loan - principal doesn't change
+                return initialLoanAmount;
+            } else {
+                // Principal & Interest loan
+                const monthlyRate = interestRate / 12;
+                const totalMonths = years * 12;
+                const monthlyPayment = initialLoanAmount *
+                    (monthlyRate * Math.pow(1 + monthlyRate, 360)) /
+                    (Math.pow(1 + monthlyRate, 360) - 1);
+
+                let remainingBalance = initialLoanAmount;
+                for (let month = 0; month < totalMonths; month++) {
+                    const interestForMonth = remainingBalance * monthlyRate;
+                    const principalForMonth = monthlyPayment - interestForMonth;
+                    remainingBalance -= principalForMonth;
+                }
+
+                // Ensure we don't return a negative balance
+                return Math.max(0, remainingBalance);
+            }
+        }
 
         // Function to sync mortgage percentage and amount
         function syncMortgage(source) {
@@ -2785,8 +2989,51 @@
             calculateUpgradeAnalysis();  // Add explicit call
         });
 
+        // Function to update projection period labels and recalculate
+        function updateProjectionPeriod() {
+            const projectionYears = parseInt(document.getElementById('upgradeProjectionYears').value);
+
+            // Update heading
+            const ordinal = getOrdinalSuffix(projectionYears);
+            document.getElementById('projectionPeriodHeading').textContent = `${projectionYears}-Year`;
+
+            // Update all labels
+            const labels = document.querySelectorAll('.projectionYearsLabel');
+            labels.forEach(label => {
+                label.textContent = projectionYears;
+            });
+
+            // Recalculate with new projection period
+            calculateUpgradeAnalysis();
+        }
+
+        // Helper function to get ordinal suffix (1st, 2nd, 3rd, etc.)
+        function getOrdinalSuffix(num) {
+            const j = num % 10;
+            const k = num % 100;
+            if (j === 1 && k !== 11) {
+                return num + "st";
+            }
+            if (j === 2 && k !== 12) {
+                return num + "nd";
+            }
+            if (j === 3 && k !== 13) {
+                return num + "rd";
+            }
+            return num + "th";
+        }
+
         // Initial calculation
         calculateUpgradeAnalysis();
+
+        // Make sure calculateUpgradeAnalysis runs when the page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log("DOM fully loaded");
+            // Force calculate upgrade analysis
+            calculateUpgradeAnalysis();
+            updateProjectionPeriod(); // Initialize projection period labels
+            console.log("Initial calculation completed");
+        });
     </script>
 </body>
 
