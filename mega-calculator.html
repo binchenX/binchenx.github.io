@@ -1332,7 +1332,7 @@
                                     <span class="tooltip">ⓘ<span class="tooltiptext">Agent commission and other selling
                                             costs as percentage of sale price</span></span>
                                 </label>
-                                <input type="number" id="sellingCosts" value="2.5" step="0.1">
+                                <input type="number" id="sellingCosts" value="2.0" step="0.1">
                             </div>
                             <div class="field-group">
                                 <label for="buyingCosts">Buying Costs - New Home (%)
@@ -2674,9 +2674,10 @@
 
             // Get upgrade home details
             const upgradeHomeValue = parseCurrencyString(document.getElementById('upgradeHomeValue').value);
-            const upgradeAreaGrowth = parseFloat(document.getElementById('upgradeAreaGrowth').value) / 100;
+            const upgradeMortgagePercent = parseFloat(document.getElementById('upgradeMortgagePercent').value) / 100;
             const upgradeLoanType = document.getElementById('upgradeLoanType').value;
             const upgradeInterestRate = parseFloat(document.getElementById('upgradeInterestRate').value) / 100;
+            const upgradeAreaGrowth = parseFloat(document.getElementById('upgradeAreaGrowth').value) / 100;
 
             // Get transaction costs
             const sellingCostsPercent = parseFloat(document.getElementById('sellingCosts').value) / 100;
@@ -2693,14 +2694,12 @@
 
             // Calculate minimal mortgage needed
             const minimalMortgage = Math.max(0, upgradeHomeValue - totalCashAfterSell);
-
-            // Update the display of new calculations
             document.getElementById('totalCashAfterSell').textContent = formatCurrency(totalCashAfterSell);
             document.getElementById('minimalMortgage').textContent = formatCurrency(minimalMortgage);
             document.getElementById('totalCashAfterSell').className = 'result-value ' + (totalCashAfterSell > 0 ? 'positive' : 'negative');
             document.getElementById('minimalMortgage').className = 'result-value neutral';
 
-            // Calculate monthly payments
+            // Calculate monthly payments - assume same interest rate for both loans
             const monthlyRate = upgradeInterestRate / 12;
 
             // Calculate current monthly payment using current home loan interest rate
@@ -2708,12 +2707,15 @@
 
             // Calculate new monthly payment
             let newMonthlyPayment;
-            if (upgradeLoanType === 'IO') {
-                newMonthlyPayment = upgradeHomeValue * monthlyRate;
-            } else {
-                newMonthlyPayment = upgradeHomeValue * monthlyRate * Math.pow(1 + monthlyRate, 360) / (Math.pow(1 + monthlyRate, 360) - 1);
-            }
+            // Calculate and update mortgage amount based on percentage and home value
+            const upgradeMortgageAmount = upgradeHomeValue * upgradeMortgagePercent;
+            document.getElementById('upgradeMortgageAmount').value = formatNumberWithCommas(upgradeMortgageAmount);
 
+            if (upgradeLoanType === 'IO') {
+                newMonthlyPayment = upgradeMortgageAmount * monthlyRate;
+            } else {
+                newMonthlyPayment = upgradeMortgageAmount * monthlyRate * Math.pow(1 + monthlyRate, 360) / (Math.pow(1 + monthlyRate, 360) - 1);
+            }
             // Calculate monthly payment change
             const monthlyPaymentChange = newMonthlyPayment - currentMonthlyPayment;
 
